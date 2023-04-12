@@ -29,9 +29,12 @@ module.exports = {
     extend: {
       colors: {
         primary: colors.sky,
-        secondary: colors.rose,
+        secondary: colors.fuchsia,
         tertiary: colors.zinc
-      }
+      },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
     }
   },
   plugins: [
