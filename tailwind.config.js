@@ -28,8 +28,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.rose,
-        secondary: colors.sky,
+        primary: colors.sky,
+        secondary: colors.rose,
         tertiary: colors.zinc
       }
     }
