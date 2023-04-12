@@ -1,6 +1,9 @@
 // state
 import { useState } from 'react'
 
+// data
+import { BREADCRUMBS } from '@/data'
+
 // base
 import { HiOutlineMenu } from 'react-icons/hi'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -15,6 +18,7 @@ import { useTheme } from "next-themes"
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 import clsx from 'clsx'
+import Link from 'next/link'
 
 const Layout = ({ children }) => {
     // state
@@ -70,17 +74,24 @@ const Layout = ({ children }) => {
                                         <AiOutlineClose className='h-4 w-4 text-tertiary-400 dark:text-tertiary-700' />
                                     </button>
                                 </div>
-                                <Dialog.Description>
-                                    This will permanently deactivate your account
+                                <Dialog.Description className='mb-4 text-tertiary-400 dark:text-tertiary-500'>
+                                    Navigate to a component or utility using this menu.
                                 </Dialog.Description>
 
-                                <p>
-                                    Are you sure you want to deactivate your account? All of your data
-                                    will be permanently removed. This action cannot be undone.
-                                </p>
-
-                                <button onClick={() => setIsOpen(false)}>Deactivate</button>
-                                <button onClick={() => setIsOpen(false)}>Cancel</button>
+                                <ul className='flex flex-col gap-8'>
+                                    {BREADCRUMBS.map((breadcrumb) => (
+                                        <li key={breadcrumb.name}>
+                                            <p className='text-lg font-medium capitalize mb-2'>{breadcrumb.name}</p>
+                                            <ul className='flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700'>
+                                                {breadcrumb.crumbs.map((crumb) => (
+                                                    <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path === crumb.name ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
+                                                        <Link href={crumb.href}>{crumb.name}</Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </li>
+                                    ))}
+                                </ul>
                             </Dialog.Panel>
                         </div>
                     </Dialog>
@@ -117,11 +128,26 @@ const Layout = ({ children }) => {
             {/* body */}
             <div className="flex h-[calc(100%-112px)]">
                 {/* sidenav */}
-                <div className="hidden lg:flex flex-col flex-shrink-0 w-64 border-r border-tertiary-200 dark:border-tertiary-700"></div>
+                <div className="hidden p-8 lg:flex flex-col flex-shrink-0 w-64 border-r border-tertiary-200 dark:border-tertiary-700">
+                    <ul className='flex flex-col gap-8'>
+                        {BREADCRUMBS.map((breadcrumb) => (
+                            <li key={breadcrumb.name}>
+                                <p className='text-lg font-medium capitalize mb-2'>{breadcrumb.name}</p>
+                                <ul className='flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700'>
+                                    {breadcrumb.crumbs.map((crumb) => (
+                                        <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path === crumb.name ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
+                                            <Link href={crumb.href}>{crumb.name}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
                 {/* main */}
                 <div className="p-8">{children}</div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 
