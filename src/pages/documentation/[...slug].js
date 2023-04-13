@@ -1,6 +1,10 @@
+// state
+import { useEffect } from "react";
+
 // components
 import { MDXRemote } from "next-mdx-remote";
 import allMDXComponents from "@/components/mdx";
+import Switch from "@/components/ui/switch";
 
 // utils
 import { serialize } from "next-mdx-remote/serialize";
@@ -9,19 +13,62 @@ import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 import rehypePrism from "rehype-prism-plus";
+import useMDXStore from "@/store/useMDXStore";
 
 const Documentation = ({ data, content }) => {
+    // store detructure
+    const store = useMDXStore();
 
-    console.log(data)
+    // effects - set initial state
+    useEffect(() => {
+        if (data.toggle) {
+            store.setSwitchActive(data.toggleValues[0])
+
+        }
+        //    eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
-        <div className="prose flex flex-col w-full prose-blockquote:border-secondary-500 prose-code:hljs max-w-none prose-md prose-p:mt-2 mt-4 prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2  prose-pre:bg-[#18191b] prose-code:text-tertiary-300 ">
-            <MDXRemote
-                {...content}
-                components={allMDXComponents}
-                scope={{
-                    // state will go here
-                }} />
+        <div className="">
+            {/* mdx header */}
+            <div className="flex flex-col gap-4">
+                {/* data */}
+                <div className="flex flex-col">
+                    <div className="">
+                        <p className="truncate whitespace-normal text-tertiary-400 dark:text-tertiary-500">
+                            <span className=" text-sm sm:text-base md:text-lg font-medium text-primary-500">{data.tag}</span>
+                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 mx-1 md:mx-2 dark:text-tertiary-500">•</span>
+                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500">{data.readingTime}</span>
+                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 mx-1 md:mx-2 dark:text-tertiary-500">•</span>
+                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500">Last updated on {data.date}</span>
+                        </p>
+                    </div>
+                    <h1 className="text-3xl sm:text-3xl md:text-4xl mb-2 font-bold">{data.title}</h1>
+                    <p className="text-base sm:text-lg text-tertiary-400 dark:text-tertiary-500">{data.description}</p>
+                </div>
+                {/* toggle */}
+                {data.toggle &&
+                    <div className="flex flex-col">
+                        <p className="text-tertiary-400 text-xs sm:text-sm md:text-base dark:text-tertiary-500 font-medium mb-1">Change the styling of the components below:</p>
+                        <Switch
+                            size='sm'
+                            values={data.toggleValues}
+                            active={store.switchActive}
+                            setActive={store.setSwitchActive}
+                        />
+                    </div>
+                }
+            </div>
+
+            <div className="prose flex flex-col w-full prose-blockquote:border-secondary-500 prose-code:hljs max-w-none prose-md prose-p:mt-2 mt-4 dark:prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2  prose-pre:bg-[#18191b] prose-code:text-tertiary-300 ">
+                <MDXRemote
+                    {...content}
+                    components={allMDXComponents}
+                    scope={{
+                        // state will go here
+                        store,
+                    }} />
+            </div>
         </div>
     )
 }

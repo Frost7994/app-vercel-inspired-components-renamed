@@ -157,7 +157,7 @@ const Layout = ({ children }) => {
                     </ul>
                 </div>
                 {/* main */}
-                <div className="p-8 overflow-y-scroll w-full scrollbar-hide">{children}</div>
+                <div className="overflow-y-scroll p-8 w-full scrollbar-hide">{children}</div>
             </div >
         </div >
     )

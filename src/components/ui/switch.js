@@ -72,7 +72,7 @@ const Switch = ({
             disabled={disabled}
             value={active}
             onChange={setActive}
-            className={clsx('flex items-center border w-fit border-tertiary-200 bg-tertiary-50 dark:border-tertiary-700 dark:bg-tertiary-950 p-1 rounded-md', className)}>
+            className={clsx('flex flex-shrink-0 items-center h-fit w-fit border border-tertiary-200 bg-tertiary-50 dark:border-tertiary-700 dark:bg-tertiary-950 p-1 rounded-md', className)}>
             {values.map((toggle) => (
                 <RadioGroup.Option
                     key={uuidv4()}
