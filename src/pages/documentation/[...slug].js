@@ -11,9 +11,17 @@ import readingTime from "reading-time";
 import rehypePrism from "rehype-prism-plus";
 
 const Documentation = ({ data, content }) => {
+
+    console.log(data)
+
     return (
-        <div className="prose w-full prose-blockquote:border-secondary-500 prose-code:hljs max-w-none prose-md prose-p:mt-2 mt-4 prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2  prose-pre:bg-[#18191b] prose-code:text-tertiary-300 ">
-            <MDXRemote {...content} components={allMDXComponents} />
+        <div className="prose flex flex-col w-full prose-blockquote:border-secondary-500 prose-code:hljs max-w-none prose-md prose-p:mt-2 mt-4 prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2  prose-pre:bg-[#18191b] prose-code:text-tertiary-300 ">
+            <MDXRemote
+                {...content}
+                components={allMDXComponents}
+                scope={{
+                    // state will go here
+                }} />
         </div>
     )
 }

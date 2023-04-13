@@ -4,8 +4,10 @@ import { RadioGroup } from '@headlessui/react'
 
 // utils
 import { cva } from 'class-variance-authority'
-import mergeClasses from '@/utils/helpers/mergeClasses'
+import clsx from 'clsx'
 import { v4 as uuidv4 } from 'uuid'
+import mergeClasses from '@/utils/helpers/mergeClasses'
+
 
 const Switch = ({
     values,
@@ -13,7 +15,7 @@ const Switch = ({
     setActive,
     size,
     disabled,
-
+    className,
 }) => {
 
 
@@ -70,7 +72,7 @@ const Switch = ({
             disabled={disabled}
             value={active}
             onChange={setActive}
-            className='flex items-center border w-fit border-tertiary-200 bg-tertiary-50 dark:border-tertiary-700 dark:bg-tertiary-950 p-1 rounded-md'>
+            className={clsx('flex items-center border w-fit border-tertiary-200 bg-tertiary-50 dark:border-tertiary-700 dark:bg-tertiary-950 p-1 rounded-md', className)}>
             {values.map((toggle) => (
                 <RadioGroup.Option
                     key={uuidv4()}

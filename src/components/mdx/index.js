@@ -1,3 +1,9 @@
-const allMDXCompnents = {}
+// components
+import Switch from "@/components/ui/switch"
 
-export default allMDXCompnents
+const allMDXComponents = {
+    Switch
+}
+
+
+export default allMDXComponents
