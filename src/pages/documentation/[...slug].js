@@ -104,12 +104,17 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params }) => {
+    // get folder from params
     let folder = params.slug[0];
+
+    // get file from params
     let file = params.slug[1];
 
+    // get file contents
     const fileContents = fs.readFileSync(path.join(`src/data/documentation/${folder}/${file}.mdx`), "utf8");
     const { data, content } = matter(fileContents);
 
+    // serialize mdx
     const mdxSource = await serialize(content, { mdxOptions: { rehypePlugins: [rehypePrism] } })
 
     return {

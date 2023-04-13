@@ -29,7 +29,6 @@ const Home = () => {
       />
       {/* bg fade */}
       <div className="absolute top-0 left-0 z-0 h-full w-full bg-gradient-radial from-transparent to-tertiary-50 dark:to-tertiary-950" />
-
       <div className="flex flex-col items-center relative">
         <div className="flex items-center gap-2 mb-2">
           <h1 className="text-4xl font-medium">Component</h1>
@@ -43,7 +42,7 @@ const Home = () => {
         <div className="relative">
           <div className="bg-gradient-to-l from-primary-500 absolute to-secondary-500 w-64 h-14 blur-3xl opacity-50" />
           <div className="relative h-12 w-56 rounded-md bg-gradient-to-l from-primary-500 to-secondary-500 p-[1px]">
-            <Link href='/documentation/getting-started/overview' className="w-full h-full items-center justify-center flex rounded-md bg-tertiary-950">
+            <Link href='/documentation/getting-started/introduction' className="w-full h-full items-center justify-center flex rounded-md bg-tertiary-950">
               <p className="font-medium bg-clip-text">Get Started Today</p>
             </Link>
           </div>
