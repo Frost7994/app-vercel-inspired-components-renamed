@@ -28,8 +28,17 @@ const Layout = ({ children }) => {
     let { theme, setTheme } = useTheme()
 
     // router destructure - use router to get the current path and all paths in the url
-    let { pathname } = useRouter()
-    let urlPaths = pathname.split('/')
+    let { pathname, query: { slug } } = useRouter()
+
+    // get the current path and all paths in the url
+    let urlPaths = [];
+
+    if (slug) {
+        urlPaths = [`documentation`, ...slug]
+    } else {
+        urlPaths = pathname.split('/')
+    }
+
     let path = urlPaths[urlPaths.length - 1]
     let paths = urlPaths.filter(path => path !== '').map((p, i) => ({
         // name: replace all '-' with ' '
@@ -37,6 +46,9 @@ const Layout = ({ children }) => {
         // href: join all paths before and including the current path
         href: `/${urlPaths.slice(1, i + 2).join('/')}`
     }))
+
+
+
 
     return (
         <div className="flex flex-col h-screen w-screen">
@@ -145,7 +157,7 @@ const Layout = ({ children }) => {
                     </ul>
                 </div>
                 {/* main */}
-                <div className="p-8">{children}</div>
+                <div className="p-8 overflow-y-scroll w-full scrollbar-hide">{children}</div>
             </div >
         </div >
     )

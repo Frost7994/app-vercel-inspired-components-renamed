@@ -40,6 +40,7 @@ module.exports = {
   plugins: [
     addVariablesForColors,
     require('tailwind-scrollbar-hide'),
-    require('@tailwindcss/forms')
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography')
   ]
 }
