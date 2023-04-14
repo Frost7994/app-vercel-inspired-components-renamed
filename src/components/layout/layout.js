@@ -1,5 +1,5 @@
 // state
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 // data
 import { BREADCRUMBS } from '@/data'
@@ -16,7 +16,7 @@ import Switch from "@/components/ui/switch"
 // utils
 import { useTheme } from "next-themes"
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import clsx from 'clsx'
 import Link from 'next/link'
 
@@ -47,8 +47,16 @@ const Layout = ({ children }) => {
         href: `/${urlPaths.slice(1, i + 2).join('/')}`
     }))
 
+    // ref for scroll to top
+    let scrollRef = useRef()
 
+    // fn to scroll to top
+    let handleScrollToTop = () => {
+        scrollRef.current.scrollTo({ top: 0 })
+    }
 
+    // scroll to top on route change
+    Router.events.on('routeChangeComplete', handleScrollToTop)
 
     return (
         <div className="flex flex-col h-screen w-screen">
@@ -157,7 +165,7 @@ const Layout = ({ children }) => {
                     </ul>
                 </div>
                 {/* main */}
-                <div className="overflow-y-scroll p-8 w-full scrollbar-hide">{children}</div>
+                <div ref={scrollRef} className="overflow-y-scroll p-8 w-full scrollbar-hide">{children}</div>
             </div >
         </div >
     )

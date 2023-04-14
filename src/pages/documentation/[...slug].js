@@ -1,7 +1,5 @@
-// state
-import { useEffect } from "react";
-
 // components
+import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import allMDXComponents from "@/components/mdx";
 import Switch from "@/components/ui/switch";
@@ -15,18 +13,15 @@ import readingTime from "reading-time";
 import rehypePrism from "rehype-prism-plus";
 import useMDXStore from "@/store/useMDXStore";
 
-const Documentation = ({ data, content }) => {
+const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
     // store detructure
     const store = useMDXStore();
 
-    // effects - set initial state
-    useEffect(() => {
-        if (data.toggle) {
-            store.setSwitchActive(data.toggleValues[0])
-
-        }
-        //    eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // get the previous and next page
+    const currentCrumbIndex = breadcrumbs.findIndex((crumb) => crumb.name === currentCrumb);
+    const previousCrumb = breadcrumbs[currentCrumbIndex - 1];
+    const nextCrumb = breadcrumbs[currentCrumbIndex + 1];
+    const lastCrumbIndex = breadcrumbs.length - 1;
 
     return (
         <div className="">
@@ -60,6 +55,7 @@ const Documentation = ({ data, content }) => {
                 }
             </div>
 
+            {/* docs */}
             <div className="prose flex flex-col w-full prose-blockquote:border-secondary-500 prose-code:hljs max-w-none prose-md prose-p:mt-2 mt-4 dark:prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2  prose-pre:bg-[#18191b] prose-code:text-tertiary-300 ">
                 <MDXRemote
                     {...content}
@@ -68,6 +64,36 @@ const Documentation = ({ data, content }) => {
                         // state will go here
                         store,
                     }} />
+            </div>
+
+            {/* links */}
+            <div className="mt-6 flex items-center gap-2 justify-between">
+                {/* previous */}
+                {previousCrumb ? (
+                    <div className="flex flex-col items-start">
+                        <p className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500 font-medium mb-1">Previous</p>
+                        <Link
+                            href={`${previousCrumb.href}`}
+                            className="text-primary-500 font-medium capitalize transition-all hover:text-primary-600">
+                            {previousCrumb.name}
+                        </Link>
+                    </div>
+                ) : (
+                    <div />
+                )}
+                {/* next */}
+                {nextCrumb ? (
+                    <div className="flex flex-col items-end">
+                        <p className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500 font-medium mb-1">Next</p>
+                        <Link
+                            href={`${nextCrumb.href}`}
+                            className="text-primary-500 font-medium capitalize transition-all hover:text-primary-600">
+                            {nextCrumb.name}
+                        </Link>
+                    </div>
+                ) : (
+                    <div />
+                )}
             </div>
         </div>
     )
@@ -117,6 +143,19 @@ export const getStaticProps = async ({ params }) => {
     // serialize mdx
     const mdxSource = await serialize(content, { mdxOptions: { rehypePlugins: [rehypePrism] } })
 
+    // folders
+    const folders = ['getting-started', 'components', 'utilities']
+
+    // breadcrumbs 
+    const breadcrumbs = folders.map((folder) => {
+        return fs.readdirSync(path.join("src/data/documentation", folder)).map((file) => {
+            return {
+                name: file.replace(".mdx", ""),
+                href: `/documentation/${folder}/${file.replace(".mdx", "")}`
+            }
+        })
+    })
+
     return {
         props: {
             data: {
@@ -124,6 +163,8 @@ export const getStaticProps = async ({ params }) => {
                 readingTime: readingTime(content).text,
             },
             content: mdxSource,
+            breadcrumbs: breadcrumbs.flat(),
+            currentCrumb: file
         }
     }
 }

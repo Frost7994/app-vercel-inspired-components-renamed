@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const store = (set) => ({
     // state
-    switchActive: '',
+    switchActive: 'default',
 
     // actions
     setSwitchActive: (val) => set({ switchActive: val }),

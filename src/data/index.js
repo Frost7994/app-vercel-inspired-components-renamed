@@ -6,22 +6,18 @@ export const BREADCRUMBS = [
                 name: 'introduction',
                 href: '/documentation/getting-started/introduction'
             },
-            {
-                name: 'overview',
-                href: '/documentation/getting-started/overview'
-            }
         ]
     },
     {
         name: 'components',
         crumbs: [
             {
-                name: 'button',
-                href: '/documentation/components/button'
+                name: 'badge',
+                href: '/documentation/components/badge'
             },
             {
-                name: 'card',
-                href: '/documentation/components/card'
+                name: 'button',
+                href: '/documentation/components/button'
             }
         ]
     },
