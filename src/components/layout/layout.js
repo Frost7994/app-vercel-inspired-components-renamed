@@ -49,6 +49,7 @@ const Layout = ({ children }) => {
 
     // ref for scroll to top
     let scrollRef = useRef()
+    console.log(scrollRef.current)
 
     // fn to scroll to top
     let handleScrollToTop = () => {

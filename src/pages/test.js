@@ -1,9 +1,11 @@
 import fs from 'fs'
 
-const Test = () => {
+const Test = ({ breadcrumbs }) => {
+    console.log(breadcrumbs)
+
     return (
         <div>
-            test
+            {JSON.stringify(breadcrumbs)}
         </div>
     )
 }
@@ -28,7 +30,7 @@ export const getServerSideProps = async () => {
             crumbs: fs.readdirSync(`./src/data/documentation/${folder}`).map(file => {
                 return {
                     // replace mdx
-                    name: file.replace('.mdx', ''),
+                    name: file.replace('.mdx', '').replace(/-/g, ' '),
                     // remove file extension
                     href: `/documentation/${folder}/${file.replace(/\.[^/.]+$/, '')}`
                 }
@@ -36,7 +38,9 @@ export const getServerSideProps = async () => {
         }
     })
 
+    console.log(breadcrumbs)
+
     return {
-        props: {}
+        props: { breadcrumbs }
     }
 }
