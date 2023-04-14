@@ -53,11 +53,13 @@ const Layout = ({ children }) => {
 
     // fn to scroll to top
     let handleScrollToTop = () => {
-        scrollRef.current.scrollTo({ top: 0 })
+        scrollRef?.current?.scrollTo({ top: 0 })
     }
 
     // scroll to top on route change
     Router.events.on('routeChangeComplete', handleScrollToTop)
+
+    console.log(path.replace(/-/g, ''))
 
     return (
         <div className="flex flex-col h-screen w-screen">
@@ -105,7 +107,7 @@ const Layout = ({ children }) => {
                                             <p className='text-lg font-medium capitalize mb-2'>{breadcrumb.name}</p>
                                             <ul className='flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700'>
                                                 {breadcrumb.crumbs.map((crumb) => (
-                                                    <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path === crumb.name ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
+                                                    <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path.replace(/-/g, '') === crumb.name.replace(' ', '') ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
                                                         <Link href={crumb.href}>{crumb.name}</Link>
                                                     </li>
                                                 ))}
@@ -156,7 +158,7 @@ const Layout = ({ children }) => {
                                 <p className='text-lg font-medium capitalize mb-2'>{breadcrumb.name}</p>
                                 <ul className='flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700'>
                                     {breadcrumb.crumbs.map((crumb) => (
-                                        <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path === crumb.name ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
+                                        <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path.replace(/-/g, ' ') === crumb.name ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
                                             <Link href={crumb.href}>{crumb.name}</Link>
                                         </li>
                                     ))}
