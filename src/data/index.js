@@ -1,3 +1,4 @@
+// find a way to get this dynamically
 export const BREADCRUMBS = [
     {
         name: 'getting started',
