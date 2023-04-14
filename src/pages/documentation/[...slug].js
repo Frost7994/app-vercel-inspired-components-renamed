@@ -21,7 +21,6 @@ const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
     const currentCrumbIndex = breadcrumbs.findIndex((crumb) => crumb.name === currentCrumb);
     const previousCrumb = breadcrumbs[currentCrumbIndex - 1];
     const nextCrumb = breadcrumbs[currentCrumbIndex + 1];
-    const lastCrumbIndex = breadcrumbs.length - 1;
 
     return (
         <div className="">
@@ -29,34 +28,35 @@ const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
             <div className="flex flex-col gap-4">
                 {/* data */}
                 <div className="flex flex-col">
-                    <div className="">
-                        <p className="truncate whitespace-normal text-tertiary-400 dark:text-tertiary-500">
-                            <span className=" text-sm sm:text-base md:text-lg font-medium text-primary-500">{data.tag}</span>
-                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 mx-1 md:mx-2 dark:text-tertiary-500">•</span>
-                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500">{data.readingTime}</span>
-                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 mx-1 md:mx-2 dark:text-tertiary-500">•</span>
-                            <span className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500">Last updated on {data.date}</span>
-                        </p>
+                    <p className="truncate text-xs sm:text-sm text-tertiary-400 dark:text-tertiary-500">
+                        <span className="font-medium text-sm sm:text-base text-primary-500">{data.tag}</span>
+                        <span className="mx-1 md:mx-2">•</span>
+                        <span>{data.readingTime}</span>
+                        <span className="mx-1 md:mx-2">•</span>
+                        <span className="mr-1 hidden sm:inline-block">Last updated on</span>
+                        <span>{data.date}</span>
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
+                        <h1 className="text-3xl sm:text-3xl md:text-4xl mb-2 font-bold">{data.title}</h1>
+                        {/* toggle */}
+                        {data.toggle &&
+                            <div className="flex flex-col sm:items-end">
+                                <p className="text-tertiary-400 text-xs dark:text-tertiary-500 font-medium mb-1">Change the styling of the components below:</p>
+                                <Switch
+                                    size='sm'
+                                    values={data.toggleValues}
+                                    active={store.switchActive}
+                                    setActive={store.setSwitchActive}
+                                />
+                            </div>
+                        }
                     </div>
-                    <h1 className="text-3xl sm:text-3xl md:text-4xl mb-2 font-bold">{data.title}</h1>
-                    <p className="text-base sm:text-lg text-tertiary-400 dark:text-tertiary-500">{data.description}</p>
                 </div>
-                {/* toggle */}
-                {data.toggle &&
-                    <div className="flex flex-col">
-                        <p className="text-tertiary-400 text-xs sm:text-sm md:text-base dark:text-tertiary-500 font-medium mb-1">Change the styling of the components below:</p>
-                        <Switch
-                            size='sm'
-                            values={data.toggleValues}
-                            active={store.switchActive}
-                            setActive={store.setSwitchActive}
-                        />
-                    </div>
-                }
+
             </div>
 
             {/* docs */}
-            <div className="prose flex flex-col w-full prose-blockquote:border-secondary-500 prose-code:hljs max-w-none prose-md prose-p:mt-2 mt-4 dark:prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2  prose-pre:bg-[#18191b] prose-code:text-tertiary-300 ">
+            <div className="prose prose-code:hljs flex flex-col w-full prose-blockquote:border-secondary-500 max-w-none prose-md prose-p:mt-2 mt-4 dark:prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2 prose-pre:dark:!bg-tertiary-900 prose-code:bg-tertiary-900 prose-code:text-tertiary-300">
                 <MDXRemote
                     {...content}
                     components={allMDXComponents}

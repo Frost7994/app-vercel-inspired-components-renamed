@@ -5,69 +5,71 @@ description: "An open sourced project built using popular libraries such as Next
 author: Tommy Byrne
 tag: "Getting Started"
 ---
+## The Why
+As my skills as a developer continuously grow, so does my github with projects from small to large. My base stack is __NextJS__, __TailwindCSS__ and __Prisma__ for full stack applications but each of these libraries require set up. Once each of these are configured the next step is creating some generic components and utilities such as `Layout`, `Button` or `mergeClasses`. After repeating these processes countless times I decided to put them all in one place in a docs style application, open sourced where I (and others) can copy the code from and use as necessary. 
 
-# Markdown syntax guide
+## The What
 
-## Headers
+The libraries I tend to use most for building UI components are:
+- HeadlessUI
+- RadixUI
+- TailwindCSS
+- Framer-Motion
+- Class-Variance-Authority
+- clsx
 
-# This is a Heading h1
-## This is a Heading h2 
-###### This is a Heading h6
+__HeadlessUI__ and __RadixUI__ are both headless libraries that leave all the styling to the user. 
 
-## Emphasis
+__TailwindCSS__ is my go to for styling apps since forever. I've tried multiple otehr libraries from MaterialUI to Chakra and find that TailwindCSS solves nearly all of my use cases in the simplest ways.
 
-*This text will be italic*  
-_This will also be italic_
+__Framer Motion__ is an amazing library for animations which I integrate into most of the components I build in one way or another.
 
-**This text will be bold**  
-__This will also be bold__
+__CLass-Variance-Authority__ and __Clsx__ are two libraries I use together for the base styling of all my components.
 
-_You **can** combine them_
+## The How
 
-## Lists
+Each of the components I build follow the same guidelines so that there is a simple pattern to follow. The components in this project follow a vercel-style theme but you can implement your own styles easily.
 
-### Unordered
+The __first step__ is creating a utility called `mergeClasses`. It's a simple utility function that uses clsx and tailwind-merge to clean up styling in or components, the code is as follows:
 
-* Item 1
-* Item 2
-* Item 2a
-* Item 2b
+```jsx
+// utils
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-### Ordered
+const mergeClasses = (...inputs) => {
+  return twMerge(clsx(inputs));
+};
 
-1. Item 1
-1. Item 2
-1. Item 3
-  1. Item 3a
-  1. Item 3b
-
-## Images
-
-## Links
-
-You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
-
-## Blockquotes
-
-> Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.
->
->> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.
-
-## Tables
-
-| Left columns  | Right columns |
-| ------------- |:-------------:|
-| left foo      | right foo     |
-| left bar      | right bar     |
-| left baz      | right baz     |
-
-## Blocks of code
-
+export default mergeClasses;
 ```
-let message = 'Hello world';
-alert(message);
+The __second step__ is using `cva` from `class-variance-authority` to create the default styling and pass it to the component. The docs will go into further detail but an example is:
+
+```jsx
+// utils
+import mergeClasses from '@/utils/helpers/mergeClasses'
+import {cva} from 'class-variance-authority'
+
+export const baseButtonStyles = cva([
+    // base styles here
+],{
+    // conditional styling here
+})
+
+const Button = ({...props, children}) => {
+    return (
+    <button 
+        {...props}
+        className={mergeClasses(
+            baseButtonStyles({
+                // cva props here
+            })
+        )}
+    )>
+    {children}
+    </button>
+}
+
+export default Button
 ```
 
-## Inline code
-
-This web site is using `markedjs/marked`.

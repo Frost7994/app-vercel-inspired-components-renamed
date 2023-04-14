@@ -59,8 +59,6 @@ const Layout = ({ children }) => {
     // scroll to top on route change
     Router.events.on('routeChangeComplete', handleScrollToTop)
 
-    console.log(path.replace(/-/g, ''))
-
     return (
         <div className="flex flex-col h-screen w-screen">
             {/* mobile menu */}
@@ -88,7 +86,7 @@ const Layout = ({ children }) => {
                                 animate={{ x: 0 }}
                                 exit={{ x: '-100%' }}
                                 transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                className='h-full bg-tertiary-50 dark:bg-tertiary-950 border-r border-tertiary-200 dark:border-tertiary-700 w-64 shadow-md pl-8 pr-4'>
+                                className='h-full bg-tertiary-50 dark:bg-tertiary-950 border-r border-tertiary-200 dark:border-tertiary-700 w-72 shadow-md pl-4 md:pl-8 pr-4'>
                                 <div className='flex items-center justify-between h-14 border-b border-transparent'>
                                     <Dialog.Title className='text-xl font-medium'>Component<span className='text-primary-500'>UI</span></Dialog.Title>
                                     <button
@@ -151,7 +149,7 @@ const Layout = ({ children }) => {
             {/* body */}
             <div className="flex h-[calc(100%-112px)]">
                 {/* sidenav */}
-                <div className="hidden p-8 lg:flex flex-col flex-shrink-0 w-64 border-r border-tertiary-200 dark:border-tertiary-700">
+                <div className="hidden p-8 lg:flex flex-col flex-shrink-0 w-72 border-r border-tertiary-200 dark:border-tertiary-700">
                     <ul className='flex flex-col gap-8'>
                         {BREADCRUMBS.map((breadcrumb) => (
                             <li key={breadcrumb.name}>
