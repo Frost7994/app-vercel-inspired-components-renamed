@@ -1,8 +1,10 @@
 // components
-import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import allMDXComponents from "@/components/mdx";
-import Switch from "@/components/ui/switch";
+import Head from "@/components/layout/head";
+import MDXHeader from "@/components/mdx/mdxHeader";
+import MDXFooter from "@/components/mdx/mdxFooter";
+import MDXBody from "@/components/mdx/mdxBody";
 
 // utils
 import { serialize } from "next-mdx-remote/serialize";
@@ -13,9 +15,12 @@ import readingTime from "reading-time";
 import rehypePrism from "rehype-prism-plus";
 import useMDXStore from "@/store/useMDXStore";
 
+
 const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
     // store detructure
     const store = useMDXStore();
+
+    console.log(breadcrumbs)
 
     // get the previous and next page
     const currentCrumbIndex = breadcrumbs.findIndex((crumb) => crumb.name === currentCrumb);
@@ -23,40 +28,14 @@ const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
     const nextCrumb = breadcrumbs[currentCrumbIndex + 1];
 
     return (
-        <div className="">
+        <>
+            {/* custom head -- Apex | title */}
+            <Head title={`${data.title}`}></Head>
             {/* mdx header */}
-            <div className="flex flex-col gap-4">
-                {/* data */}
-                <div className="flex flex-col">
-                    <p className="truncate text-xs sm:text-sm text-tertiary-400 dark:text-tertiary-500">
-                        <span className="font-medium text-sm sm:text-base text-primary-500">{data.tag}</span>
-                        <span className="mx-1 md:mx-2">•</span>
-                        <span>{data.readingTime}</span>
-                        <span className="mx-1 md:mx-2">•</span>
-                        <span className="mr-1 hidden sm:inline-block">Last updated on</span>
-                        <span>{data.date}</span>
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-between gap-4">
-                        <h1 className="text-3xl sm:text-3xl md:text-4xl mb-2 font-bold">{data.title}</h1>
-                        {/* toggle */}
-                        {data.toggle &&
-                            <div className="flex flex-col sm:items-end">
-                                <p className="text-tertiary-400 text-xs dark:text-tertiary-500 font-medium mb-1">Change the styling of the components below:</p>
-                                <Switch
-                                    size='sm'
-                                    values={data.toggleValues}
-                                    active={store.switchActive}
-                                    setActive={store.setSwitchActive}
-                                />
-                            </div>
-                        }
-                    </div>
-                </div>
-
-            </div>
-
-            {/* docs */}
-            <div className="prose prose-code:hljs flex flex-col w-full prose-blockquote:border-secondary-500 max-w-none prose-md prose-p:mt-2 mt-4 dark:prose-invert px-4 prose-h1:mt-8 prose-h1:mb-0 prose-h2:mt-8 prose-h2:mb-2 prose-pre:dark:!bg-tertiary-900 prose-code:bg-tertiary-900 prose-code:text-tertiary-300">
+            <MDXHeader data={data} />
+            {/* mdx wrapper to apply prose styling */}
+            <MDXBody>
+                {/* mdx rendered */}
                 <MDXRemote
                     {...content}
                     components={allMDXComponents}
@@ -64,38 +43,13 @@ const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
                         // state will go here
                         store,
                     }} />
-            </div>
-
-            {/* links */}
-            <div className="mt-6 flex items-center gap-2 justify-between">
-                {/* previous */}
-                {previousCrumb ? (
-                    <div className="flex flex-col items-start">
-                        <p className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500 font-medium mb-1">Previous</p>
-                        <Link
-                            href={`${previousCrumb.href}`}
-                            className="text-primary-500 font-medium capitalize transition-all hover:text-primary-600">
-                            {previousCrumb.name}
-                        </Link>
-                    </div>
-                ) : (
-                    <div />
-                )}
-                {/* next */}
-                {nextCrumb ? (
-                    <div className="flex flex-col items-end">
-                        <p className="text-xs sm:text-sm md:text-base text-tertiary-400 dark:text-tertiary-500 font-medium mb-1">Next</p>
-                        <Link
-                            href={`${nextCrumb.href}`}
-                            className="text-primary-500 font-medium capitalize transition-all hover:text-primary-600">
-                            {nextCrumb.name}
-                        </Link>
-                    </div>
-                ) : (
-                    <div />
-                )}
-            </div>
-        </div>
+            </MDXBody>
+            {/* mdx footer */}
+            <MDXFooter
+                previousCrumb={previousCrumb}
+                nextCrumb={nextCrumb}
+            />
+        </>
     )
 }
 
@@ -150,7 +104,7 @@ export const getStaticProps = async ({ params }) => {
     const breadcrumbs = folders.map((folder) => {
         return fs.readdirSync(path.join("src/data/documentation", folder)).map((file) => {
             return {
-                name: file.replace(".mdx", ""),
+                name: file.replace(".mdx", "").replace("-", " "),
                 href: `/documentation/${folder}/${file.replace(".mdx", "")}`
             }
         })

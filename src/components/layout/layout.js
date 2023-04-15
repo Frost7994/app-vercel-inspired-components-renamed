@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
     let { theme, setTheme } = useTheme()
 
     // router destructure - use router to get the current path and all paths in the url
-    let { pathname, query: { slug } } = useRouter()
+    let { push, pathname, query: { slug } } = useRouter()
 
     // get the current path and all paths in the url
     let urlPaths = [];
@@ -49,7 +49,6 @@ const Layout = ({ children }) => {
 
     // ref for scroll to top
     let scrollRef = useRef()
-    console.log(scrollRef.current)
 
     // fn to scroll to top
     let handleScrollToTop = () => {
@@ -105,8 +104,14 @@ const Layout = ({ children }) => {
                                             <p className='text-lg font-medium capitalize mb-2'>{breadcrumb.name}</p>
                                             <ul className='flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700'>
                                                 {breadcrumb.crumbs.map((crumb) => (
-                                                    <li key={crumb.name} className={clsx('capitalize border-l-2 pl-3 -ml-0.5', path.replace(/-/g, '') === crumb.name.replace(' ', '') ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
-                                                        <Link href={crumb.href}>{crumb.name}</Link>
+                                                    <li key={crumb.name} className={clsx('border-l-2 pl-3 -ml-0.5', path.replace(/-/g, '') === crumb.name.replace(' ', '') ? 'text-primary-500 border-primary-500' : 'text-tertiary-400 dark:text-tertiary-500 border-tertiary-200 dark:border-tertiary-700 hover:text-tertiary-500 hover:border-tertiary-400 hover:dark:text-tertiary-400 hover:dark:border-tertiary-500')}>
+                                                        <button
+                                                            onClick={() => {
+                                                                push(crumb.href)
+                                                                setIsOpen(false)
+                                                            }}
+                                                            className='capitalize'
+                                                        >{crumb.name}</button>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -120,7 +125,7 @@ const Layout = ({ children }) => {
             </AnimatePresence>
             {/* nav */}
             <div className="w-full h-14 flex items-center justify-between px-4 md:px-8 border-b border-tertiary-200 dark:border-tertiary-700">
-                <p className="text-xl font-medium">Component<span className="text-primary-500">UI</span></p>
+                <p className="text-xl font-medium">Apex<span className="text-primary-500">UI</span></p>
                 <Switch
                     values={['light', 'dark']}
                     active={theme}
@@ -166,7 +171,7 @@ const Layout = ({ children }) => {
                     </ul>
                 </div>
                 {/* main */}
-                <div ref={scrollRef} className="overflow-y-scroll p-8 w-full scrollbar-hide">{children}</div>
+                <div ref={scrollRef} className="overflow-y-scroll p-8 md:p-12 w-full scrollbar-hide">{children}</div>
             </div >
         </div >
     )

@@ -58,6 +58,9 @@ const Switch = ({
                 true: [
                     'pointer-events-none',
                 ]
+            },
+            fullWidth: {
+                true: [],
             }
         },
         defaultVariants: {
