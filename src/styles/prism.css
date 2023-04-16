@@ -1,20 +1,37 @@
 :root {
+    /* -- neutral-300 -- */
     --color-one: #d4d4d4;
+    /* -- cyan-800 -- */
     --color-two: #264f78;
-    --color-three: #18191b;
+    /* -- zinc-900 -- */
+    --color-three: #18181b;
+    /* -- rose-500 -- */
     --color-four: #db4c69;
+    /* -- blue-400 -- */
     --color-five: #569cd6;
+    /* -- blue-300 -- */
     --color-six: #9cdcfe;
+    /* -- neutral-500 -- */
     --color-seven: #676869;
+    /* -- green-200 -- */
     --color-eight: #b5cea8;
+    /* red-300 */
     --color-nine: #ce9178;
+    /* fuschia-400  */
     --color-ten: #c586c0;
+    /* lime-200 */
     --color-eleven: #dcdcaa;
+    /* red-400 */
     --color-twelve: #d16969;
+    /* emerald-400 */
     --color-thirteen: #4ec9b0;
+    /* orange-300 */
     --color-fourteen: #d7ba7d;
+    /* -- zinc-500 -- */
     --color-fifteen: #808080;
+    /* -- amber-100-- */
     --color-sixteen: #f7ebc6;
+    /* -- amber-200 -- */
     --color-seventeen: #f7d87c;
 }
 
