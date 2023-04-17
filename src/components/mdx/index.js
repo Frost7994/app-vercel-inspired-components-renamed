@@ -92,7 +92,7 @@ const ButtonDemonstration = () => {
 
     return (
         <div className='not-prose'>
-            <div className='rounded-md p-3 bg-tertiary-50 dark:bg-tertiary-950 border border-tertiary-200 dark:border-tertiary-700'>
+            <div className='sm:hidden rounded-md p-3 bg-tertiary-50 dark:bg-tertiary-950 border border-tertiary-200 dark:border-tertiary-700'>
                 <p className='text-sm'>View this page on a screen bigger than 640px to use the sandbox.</p>
             </div>
             <div className='gap-6 hidden sm:flex'>
