@@ -29,7 +29,6 @@ const MDXHeader = ({ data }) => {
                         values={data.toggleValues}
                         active={store.switchActive}
                         setActive={store.setSwitchActive} />
-
                 }
             </div>
         </div>

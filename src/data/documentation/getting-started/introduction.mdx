@@ -77,8 +77,9 @@ const Button = ({...props, children}) => {
 export default Button
 ```
 
-<CodeBlock snippet={
-    `
+<CodeBlock
+    snippet={
+        `
 // utils
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -89,16 +90,4 @@ return twMerge(clsx(inputs));
 
 export default mergeClasses;
 `
-}>
-```jsx
-// utils
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-const mergeClasses = (...inputs) => {
-return twMerge(clsx(inputs));
-};
-
-export default mergeClasses;
-```
-</CodeBlock>
+    }/>

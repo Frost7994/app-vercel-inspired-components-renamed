@@ -11,6 +11,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 // utils
 import { toast } from 'react-hot-toast'
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 
 const GithubButton = ({ }) => {
     return (
@@ -23,11 +25,10 @@ const GithubButton = ({ }) => {
     )
 }
 
-const CodeBlock = ({ children, snippet }) => {
-
+const CodeBlock = ({ title, snippet }) => {
     return (
-        <div className='not-prose border border-tertiary-300 dark:border-tertiary-800 flex flex-col rounded-md overflow-hidden'>
-            <div className='flex items-center gap-4 justify-between p-3 bg-tertiary-300 dark:bg-tertiary-800'>
+        <div className='not-prose border border-tertiary-200 dark:border-tertiary-800 flex flex-col rounded-md overflow-hidden'>
+            <div className='flex items-center gap-4 justify-between p-3 bg-tertiary-200 dark:bg-tertiary-800'>
                 <p className='text-sm font-medium'>HTTP Status Code</p>
                 <CopyToClipboard
                     text={snippet}
@@ -41,17 +42,23 @@ const CodeBlock = ({ children, snippet }) => {
                     <BsClipboard className='text-tertiary-950 dark:text-tertiary-50 cursor-pointer' />
                 </CopyToClipboard>
             </div>
-            <div className='bg-tertiary-200 dark:bg-tertiary-900'>
-                {children}
+            <div className='bg-tertiary-100 dark:bg-tertiary-900'>
+                <SyntaxHighlighter language='javascript' style={docco} customStyle={{
+                    paddingLeft: '2rem',
+                    paddingBottom: '2rem',
+                    backgroundColor: 'transparent'
+                }}>
+                    {snippet}
+                </SyntaxHighlighter>
             </div>
-        </div>
+        </div >
     )
 }
 
 
 const allMDXComponents = {
     Switch,
-    code: (props) => <code className="before:hidden after:hidden py-1 px-2 rounded-md" {...props} />,
+    code: (props) => <code className="before:hidden after:hidden py-1 px-2 rounded-md bg-tertiary-100 shadow dark:bg-tertiary-800" {...props} />,
     GithubButton,
     Button,
     CodeBlock
