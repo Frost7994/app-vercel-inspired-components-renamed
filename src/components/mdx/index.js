@@ -16,9 +16,9 @@ import clsx from 'clsx'
 import useMDXStore from '@/store/useMDXStore'
 import { useState } from 'react'
 
-const GithubButton = ({ }) => {
+const GithubButton = ({ repo }) => {
     return (
-        <Link href={`https://github.com/`} className='group overflow-hidden no-underline flex border rounded-md border-tertiary-200 dark:border-tertiary-700 w-fit hover:border-tertiary-300 transition-all hover:dark:border-tertiary-600 hover:bg-tertiary-300/25 hover:dark:bg-tertiary-600/25'>
+        <Link href={`https://github.com/Frost7994/app-vercel-inspired-components/blob/main/src${repo}`} className='group overflow-hidden no-underline flex border rounded-md border-tertiary-200 dark:border-tertiary-700 w-fit hover:border-tertiary-300 transition-all hover:dark:border-tertiary-600 hover:bg-tertiary-300/25 hover:dark:bg-tertiary-600/25'>
             <div className='p-2 aspect-square bg-tertiary-200 dark:bg-tertiary-700 group-hover:bg-tertiary-300 transition-all group-hover:dark:bg-tertiary-600'>
                 <FaGithubAlt className='flex-shrink-0' />
             </div>
@@ -76,60 +76,101 @@ const NoWrap = ({ children }) => {
 }
 
 const ButtonDemonstration = () => {
-    const [variant, setVariant] = useState('default')
+    // data
     const variants = ['default', 'primary', 'secondary']
+    const styles = ['default', 'outline', 'ghost']
+    const sizes = ['sm', 'default', 'lg']
+
+    // state
+    const [variant, setVariant] = useState('default')
+    const [style, setStyle] = useState('default')
+    const [size, setSize] = useState('default')
+    const [fullWidth, setFullWidth] = useState(false)
+    const [disabled, setDisabled] = useState(false)
+    const [loading, setLoading] = useState(false)
+
 
     return (
-        <div className='flex not-prose flex-col gap-4 my-8 p-8 bg-tertiary-100 dark:bg-tertiary-900 rounded-md shadow-[inset_1px_3px_10px_0px] shadow-tertiary-300 dark:shadow-[rgba(0,0,0,0.4)]'>
-            <div className='flex justify-end'>
-                <div className='rounded-md shadow-md shadow-tertiary-300 dark:shadow-black'>
-                    <Switch
-                        size='sm'
-                        values={variants}
-                        active={variant}
-                        setActive={setVariant} />
+        <div className='not-prose'>
+            <div className='rounded-md p-3 bg-tertiary-50 dark:bg-tertiary-950 border border-tertiary-200 dark:border-tertiary-700'>
+                <p className='text-sm'>View this page on a screen bigger than 640px to use the sandbox.</p>
+            </div>
+            <div className='gap-6 hidden sm:flex'>
+                <div className='flex flex-col gap-2'>
+                    <div className='flex flex-col'>
+                        <p>Variant:</p>
+                        <Switch
+                            size='sm'
+                            values={variants}
+                            active={variant}
+                            setActive={setVariant}
+                        />
+                    </div>
+                    <div className='flex flex-col'>
+                        <p>Size:</p>
+                        <Switch
+                            size='sm'
+                            values={sizes}
+                            active={size}
+                            setActive={setSize}
+                        />
+                    </div>
+                    <div className='flex flex-col'>
+                        <p>Style:</p>
+                        <Switch
+                            size='sm'
+                            values={styles}
+                            active={style}
+                            setActive={setStyle}
+                        />
+                    </div>
+                    <div className='flex flex-col'>
+                        <p>Full width:</p>
+                        <Switch
+                            size='sm'
+                            values={['true', 'false']}
+                            active={fullWidth ? 'true' : 'false'}
+                            setActive={(value) => setFullWidth(value === 'true' ? true : false)}
+                        />
+                    </div>
+                    <div className='flex flex-col'>
+                        <p>Disabled:</p>
+                        <Switch
+                            size='sm'
+                            values={['true', 'false']}
+                            active={disabled ? 'true' : 'false'}
+                            setActive={(value) => setDisabled(value === 'true' ? true : false)}
+                        />
+                    </div>
+                    <div className='flex flex-col'>
+                        <p>Loading:</p>
+                        <Switch
+                            size='sm'
+                            values={['true', 'false']}
+                            active={loading ? 'true' : 'false'}
+                            setActive={(value) => setLoading(value === 'true' ? true : false)}
+                        />
+                    </div>
+                </div>
+                <div className='bg-tertiary-900 flex w-full rounded-md items-center justify-center p-8'>
+                    <Button
+                        variant={variant}
+                        size={size}
+                        style={style}
+                        disabled={disabled}
+                        loading={loading}
+                        fullWidth={fullWidth}
+                    >Demonstration</Button>
                 </div>
             </div>
-            <div className='flex flex-col border-b pb-2 border-tertiary-200 dark:border-tertiary-700'>
-                <p className='underline'>Default buttons</p>
-                <div className='flex items-center gap-2'>
-                    <Button variant={variant} size='sm'>Small</Button>
-                    <Button variant={variant}>Default</Button>
-                    <Button variant={variant} size='lg'>Large</Button>
-                    <Button variant={variant} disabled>Disabled</Button>
-                    <Button variant={variant} loading>Loading</Button>
-                    <Button variant={variant} fullWidth>Full Width</Button>
-                </div>
-            </div>
-            <div className='flex flex-col border-b pb-2 border-tertiary-200 dark:border-tertiary-700'>
-                <p className='underline'>Outline buttons</p>
-                <div className='flex items-center gap-2'>
-                    <Button style='outline' variant={variant} size='sm'>Small</Button>
-                    <Button style='outline' variant={variant}>Outline</Button>
-                    <Button style='outline' variant={variant} size='lg'>Large</Button>
-                    <Button style='outline' variant={variant} disabled>Disabled</Button>
-                    <Button style='outline' variant={variant} loading>Loading</Button>
-                    <Button style='outline' variant={variant} fullWidth>Full Width</Button>
-                </div>
-            </div>
-            <div className='flex flex-col border-b pb-2 border-tertiary-200 dark:border-tertiary-700'>
-                <p className='underline'>Ghost buttons</p>
-                <div className='flex items-center gap-2'>
-                    <Button style='ghost' variant={variant} size='sm'>Small</Button>
-                    <Button style='ghost' variant={variant}>Ghost</Button>
-                    <Button style='ghost' variant={variant} size='lg'>Large</Button>
-                    <Button style='ghost' variant={variant} disabled>Disabled</Button>
-                    <Button style='ghost' variant={variant} loading>Loading</Button>
-                    <Button style='ghost' variant={variant} fullWidth>Full Width</Button>
-                </div>
-            </div>
-        </div >
+        </div>
     )
 }
 
 const allMDXComponents = {
     Switch,
     code: (props) => <code className="before:hidden after:hidden py-1 px-2 rounded-md bg-tertiary-100 shadow dark:bg-tertiary-800" {...props} />,
+    h2: (props) => <h2 className="border-b border-tertiary-200 dark:border-tertiary-700 pb-2" {...props} />,
     GithubButton,
     Button,
     CodeBlock,

@@ -14,6 +14,7 @@ export const baseButtonStyles = cva([
     'rounded-md',
     'font-medium',
     'flex-shrink-0',
+    'h-fit'
 ], {
     variants: {
         size: {
@@ -48,6 +49,9 @@ export const baseButtonStyles = cva([
         fullWidth: {
             true: [
                 'flex-1',
+            ],
+            false: [
+                'w-fit',
             ]
         }
     },
@@ -159,6 +163,7 @@ export const baseButtonStyles = cva([
         variant: 'default',
         disabled: false,
         loading: false,
+        fullWidth: false
     }
 })
 
