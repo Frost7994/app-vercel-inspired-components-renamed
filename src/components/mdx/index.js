@@ -152,7 +152,7 @@ const ButtonDemonstration = () => {
                         />
                     </div>
                 </div>
-                <div className='bg-tertiary-900 flex w-full rounded-md items-center justify-center p-8'>
+                <div className='bg-tertiary-100 dark:bg-tertiary-900 flex w-full rounded-md items-center justify-center p-8'>
                     <Button
                         variant={variant}
                         size={size}
