@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.15, delay: 0.1 }}
-                            className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/50" aria-hidden="true" />
+                            className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80" aria-hidden="true" />
 
                         {/* Full-screen container to center the panel */}
                         <div className="fixed inset-0">
@@ -85,7 +85,7 @@ const Layout = ({ children }) => {
                                 animate={{ x: 0 }}
                                 exit={{ x: '-100%' }}
                                 transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                className='h-full bg-tertiary-50 dark:bg-tertiary-950 border-r border-tertiary-200 dark:border-tertiary-700 w-72 shadow-md pl-4 md:pl-8 pr-4'>
+                                className='h-full overflow-y-scroll scrollbar-hide pb-8 bg-tertiary-50 dark:bg-tertiary-950 border-r border-tertiary-200 dark:border-tertiary-700 w-72 shadow-md pl-4 md:pl-8 pr-4'>
                                 <div className='flex items-center justify-between h-14 border-b border-transparent'>
                                     <Dialog.Title className='text-xl font-medium'>Component<span className='text-primary-500'>UI</span></Dialog.Title>
                                     <button
@@ -154,7 +154,7 @@ const Layout = ({ children }) => {
             {/* body */}
             <div className="flex h-[calc(100%-112px)]">
                 {/* sidenav */}
-                <div className="hidden p-8 lg:flex flex-col flex-shrink-0 w-72 border-r border-tertiary-200 dark:border-tertiary-700">
+                <div className="hidden overflow-y-scroll scrollbar-hide p-8 lg:flex flex-col flex-shrink-0 w-72 border-r border-tertiary-200 dark:border-tertiary-700">
                     <ul className='flex flex-col gap-8'>
                         {BREADCRUMBS.map((breadcrumb) => (
                             <li key={breadcrumb.name}>
@@ -171,7 +171,9 @@ const Layout = ({ children }) => {
                     </ul>
                 </div>
                 {/* main */}
-                <div ref={scrollRef} className="overflow-y-scroll p-8 md:p-12 w-full scrollbar-hide">{children}</div>
+                <div ref={scrollRef} className="overflow-y-scroll p-8 md:p-12 w-full scrollbar-hide">
+                    {children}
+                </div>
             </div >
         </div >
     )

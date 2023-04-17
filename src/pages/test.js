@@ -9,10 +9,11 @@ const Test = ({ breadcrumbs }) => {
 
   const variants = ["default", "primary", "secondary"];
 
+
   return (
     <div>
       <div>
-        <button className="button">Click Me</button>
+        {JSON.stringify(breadcrumbs)}
       </div>
     </div>
   );
@@ -27,7 +28,7 @@ export default Test;
 
 export const getServerSideProps = async () => {
   // folders
-  const folders = ["getting-started", "components", "utilities"];
+  const folders = ["overview", "components", "utilities"];
 
   // breadcrumbs
   const breadcrumbs = folders.map((folder) => {

@@ -10,9 +10,9 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // utils
 import { toast } from 'react-hot-toast'
-
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import clsx from 'clsx'
 
 const GithubButton = ({ }) => {
     return (
@@ -55,13 +55,34 @@ const CodeBlock = ({ title, snippet }) => {
     )
 }
 
+const TableProp = ({ children, type }) => {
+    return (
+        <div className={
+            clsx('not-prose w-fit', type === 'solid' ? 'bg-primary-100 px-2 text-primary-500 dark:bg-primary-800 rounded-md' : 'text-primary-500 font-medium')
+        }>
+            {children}
+        </div>
+    )
+}
+
+const NoWrap = ({ children }) => {
+    return (
+        <span className='whitespace-nowrap'>
+            {children}
+        </span>
+    )
+}
+
+
 
 const allMDXComponents = {
     Switch,
     code: (props) => <code className="before:hidden after:hidden py-1 px-2 rounded-md bg-tertiary-100 shadow dark:bg-tertiary-800" {...props} />,
     GithubButton,
     Button,
-    CodeBlock
+    CodeBlock,
+    TableProp,
+    NoWrap
 }
 
 

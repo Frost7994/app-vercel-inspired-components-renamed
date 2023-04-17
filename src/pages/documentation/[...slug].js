@@ -14,6 +14,7 @@ import matter from "gray-matter";
 import readingTime from "reading-time";
 import rehypePrism from "rehype-prism-plus";
 import useMDXStore from "@/store/useMDXStore";
+import remarkGfm from "remark-gfm";
 
 
 const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
@@ -93,10 +94,15 @@ export const getStaticProps = async ({ params }) => {
     const { data, content } = matter(fileContents);
 
     // serialize mdx
-    const mdxSource = await serialize(content, { mdxOptions: { rehypePlugins: [rehypePrism] } })
+    const mdxSource = await serialize(content, {
+        mdxOptions: {
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [rehypePrism]
+        }
+    })
 
     // folders
-    const folders = ['getting-started', 'components', 'utilities']
+    const folders = ['overview', 'components', 'utilities']
 
     // breadcrumbs 
     const breadcrumbs = folders.map((folder) => {
@@ -116,7 +122,7 @@ export const getStaticProps = async ({ params }) => {
             },
             content: mdxSource,
             breadcrumbs: breadcrumbs.flat(),
-            currentCrumb: file
+            currentCrumb: file.replace("-", " ")
         }
     }
 }

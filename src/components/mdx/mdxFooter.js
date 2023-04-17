@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const MDXFooter = ({ previousCrumb, nextCrumb }) => {
     return (
-        <div className="mt-6 flex border-t border-tertiary-200 dark:border-tertiary-700 pt-6 items-center gap-2 justify-between">
+        <div className="mt-6 flex border-t border-tertiary-200 dark:border-tertiary-700 pt-6 pb-8 items-center gap-2 justify-between">
             {/* previous */}
             {previousCrumb ? (
                 <div className="flex flex-col items-start">

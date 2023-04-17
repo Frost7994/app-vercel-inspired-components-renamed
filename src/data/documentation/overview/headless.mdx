@@ -1,0 +1,98 @@
+---
+title: "Headless"
+date: Oct 2022
+description: "An open sourced project built using popular libraries such as NextJS, RadixUI, HeadlessUI, TailwindCSS and Framer-Motion. Each component or utility can be edited and adjusted to fit your projects needs."
+author: Tommy Byrne
+tag: "Overview"
+---
+
+| Prop                                        |            Type             | Default                                        | Description                                                                                                                                          |
+| :------------------------------------------ | :-------------------------: | :--------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <TableProp type='solid'>address</TableProp> | <TableProp>Bool</TableProp> | <NoWrap> address of certificate owner</NoWrap> | some description                                                                                                                                     |
+| _bytes32_                                   | <TableProp>Num</TableProp>  | <NoWrap> address of certificate owner</NoWrap> | some description evchjbedwcd cd mdcnkdcm d dckjdcd mdfm d,fd ,ds sd,m ds cds m,dsc,m ddsc dscsdcm, dscsdkcds dsklds dsc msdc,m sd sdc dsckdsdksl dsc |
+
+## The Why
+
+As my skills as a developer continuously grow, so does my github with projects from small to large. My base stack is **NextJS**, **TailwindCSS** and **Prisma** for full stack applications but each of these libraries require set up. Once each of these are configured the next step is creating some generic components and utilities such as `Layout`, `Button` or `mergeClasses`. After repeating these processes countless times I decided to put them all in one place in a docs style application, open sourced where I (and others) can copy the code from and use as necessary.
+
+## The What
+
+The libraries I tend to use most for building UI components are:
+
+- HeadlessUI
+- RadixUI
+- TailwindCSS
+- Framer-Motion
+- Class-Variance-Authority
+- clsx
+
+**HeadlessUI** and **RadixUI** are both headless libraries that leave all the styling to the user.
+
+**TailwindCSS** is my go to for styling apps since forever. I've tried multiple otehr libraries from MaterialUI to Chakra and find that TailwindCSS solves nearly all of my use cases in the simplest ways.
+
+**Framer Motion** is an amazing library for animations which I integrate into most of the components I build in one way or another.
+
+**CLass-Variance-Authority** and **Clsx** are two libraries I use together for the base styling of all my components.
+
+## The How
+
+Each of the components I build follow the same guidelines so that there is a simple pattern to follow. The components in this project follow a vercel-style theme but you can implement your own styles easily.
+
+The **first step** is creating a utility called `mergeClasses`. It's a simple utility function that uses clsx and tailwind-merge to clean up styling in or components, the code is as follows:
+
+```jsx
+// utils
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+const mergeClasses = (...inputs) => {
+  return twMerge(clsx(inputs));
+};
+
+export default mergeClasses;
+```
+
+The **second step** is using `cva` from `class-variance-authority` to create the default styling and pass it to the component. The docs will go into further detail but an example is:
+
+```jsx
+// utils
+import mergeClasses from '@/utils/helpers/mergeClasses'
+import {cva} from 'class-variance-authority'
+
+export const baseButtonStyles = cva([
+    // base styles here
+],{
+    // conditional styling here
+})
+
+const Button = ({...props, children}) => {
+    return (
+    <button
+        {...props}
+        className={mergeClasses(
+            baseButtonStyles({
+                // cva props here
+            })
+        )}
+    )>
+    {children}
+    </button>
+}
+
+export default Button
+```
+
+<CodeBlock
+    snippet={
+        `
+// utils
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+const mergeClasses = (...inputs) => {
+return twMerge(clsx(inputs));
+};
+
+export default mergeClasses;
+`
+    }/>
