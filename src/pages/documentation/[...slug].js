@@ -20,8 +20,6 @@ const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
     // store detructure
     const store = useMDXStore();
 
-    console.log(breadcrumbs)
-
     // get the previous and next page
     const currentCrumbIndex = breadcrumbs.findIndex((crumb) => crumb.name === currentCrumb);
     const previousCrumb = breadcrumbs[currentCrumbIndex - 1];

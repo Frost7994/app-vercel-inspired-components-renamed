@@ -23,6 +23,7 @@
     "nextjs-progressbar": "^0.0.16",
     "postcss": "8.4.21",
     "react": "18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.8.0",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/typography": "^0.5.9"
+    "@tailwindcss/typography": "^0.5.9",
+    "postcss-import": "^15.1.0"
   }
 }

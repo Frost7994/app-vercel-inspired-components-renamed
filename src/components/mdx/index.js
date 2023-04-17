@@ -6,6 +6,10 @@ import { BsClipboard } from 'react-icons/bs'
 import Link from "next/link"
 import Switch from "@/components/ui/switch"
 import Button from '@/components/ui/button'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+// utils
+import { toast } from 'react-hot-toast'
 
 
 const GithubButton = ({ }) => {
@@ -19,12 +23,23 @@ const GithubButton = ({ }) => {
     )
 }
 
-const CodeBlock = ({ children }) => {
+const CodeBlock = ({ children, snippet }) => {
+
     return (
         <div className='not-prose border border-tertiary-300 dark:border-tertiary-800 flex flex-col rounded-md overflow-hidden'>
             <div className='flex items-center gap-4 justify-between p-3 bg-tertiary-300 dark:bg-tertiary-800'>
                 <p className='text-sm font-medium'>HTTP Status Code</p>
-                <BsClipboard className='text-tertiary-950 dark:text-tertiary-50' />
+                <CopyToClipboard
+                    text={snippet}
+                    options={{
+                        format: 'text/plain'
+                    }}
+                    onCopy={() => {
+                        console.log(snippet)
+                        toast.success('Copied to clipboard')
+                    }}>
+                    <BsClipboard className='text-tertiary-950 dark:text-tertiary-50 cursor-pointer' />
+                </CopyToClipboard>
             </div>
             <div className='bg-tertiary-200 dark:bg-tertiary-900'>
                 {children}
@@ -32,6 +47,7 @@ const CodeBlock = ({ children }) => {
         </div>
     )
 }
+
 
 const allMDXComponents = {
     Switch,
