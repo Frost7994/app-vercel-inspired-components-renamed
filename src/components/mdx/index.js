@@ -80,9 +80,9 @@ const ButtonDemonstration = () => {
     const variants = ['default', 'primary', 'secondary']
 
     return (
-        <div className='flex not-prose flex-col gap-4 my-8 p-4 bg-tertiary-100 dark:bg-tertiary-800 rounded-md shadow-[inset_1px_3px_4px_0px] shadow-tertiary-300 dark:shadow-tertiary-900'>
+        <div className='flex not-prose flex-col gap-4 my-8 p-8 bg-tertiary-100 dark:bg-tertiary-900 rounded-md shadow-[inset_1px_3px_10px_0px] shadow-tertiary-300 dark:shadow-[rgba(0,0,0,0.4)]'>
             <div className='flex justify-end'>
-                <div className='rounded-md shadow-md shadow-tertiary-300 dark:shadow-tertiary-900'>
+                <div className='rounded-md shadow-md shadow-tertiary-300 dark:shadow-black'>
                     <Switch
                         size='sm'
                         values={variants}
