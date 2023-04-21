@@ -1,60 +1,337 @@
 ---
 title: "Drawer"
 date: Oct 2022
-description: "Button component is used to trigger an action or event, such as submitting a form, opening a Dialog, canceling an action, or performing a delete operation. All props, variants and my use cases are listed below."
 author: Tommy Byrne
 tag: "Components"
 ---
 
+<GithubButton repo="/components/ui/drawer.js" />
+
 ## Introduction
 
-The `Button` component is a UI element used to trigger an action, such as submitting a form or navigating to another page. It can be styled to fit the design of your application, and supports various props to control its behavior and appearance.
+The `Drawer` component is a container that slides in from the side of the screen, providing additional content or navigation options. This component is useful for mobile devices where space is limited and you want to provide a way to access additional functionality. It takes full advantage of portals to render its component.
 
-The Switch Group on the top right of this page will allow you to toggle between the `styles` available for the `Button` component.
-
-There are two types of button in this project:
-
-- Default
-- Icon
-
-## Default Button
-
-### Description
-
-### Anatomy
+## Anatomy
 
 The `Button` component consists of the following elements:
 
-- `button` HTML element
+- `Drawer` HTML element
 - Inner text or child component
 
-## Props
-
-The `Button` component supports the following props:
-
-| Prop        | Type     | Default   | Description                                                                                       |
-| ----------- | -------- | --------- | ------------------------------------------------------------------------------------------------- |
-| `children`  | `node`   | `null`    | The content to be displayed inside the button.                                                    |
-| `onClick`   | `func`   |           | Function to be called when the button is clicked.                                                 |
-| `type`      | `string` | `button`  | The type of button, either `'button'`, `'submit'`, or `'reset'`.                                  |
-| `className` | `string` |           | Custom class name(s) to be added to the button.                                                   |
-| `disabled`  | `bool`   | `false`   | Whether the button is disabled or not.                                                            |
-| `loading`   | `bool`   | `false`   | Whether the button is in a loading state or not.                                                  |
-| `size`      | `string` | `md`      | The size of the button, either `'sm'`, `'md'`, or `'lg'`.                                         |
-| `style`     | `object` | `{}`      | Custom styles to be applied to the button.                                                        |
-| `variant`   | `string` | `default` | The color variant of the button, either `'default'`, `'primary'`, `'secondary'`, or `'tertiary'`. |
-| `fullWidth` | `bool`   | `false`   | Whether the button should be displayed at full width or not.                                      |
+The anatomy has been purposely left very basic as the code for the component will be copied and pasted into your project and adjusted to your use case. The critical parts of this are the `Drawer` component itself, and key props such as **direction**, **isOpen** and **setIsOpen**.
 
 ## Usage
 
-To use the `Button` component, import it from your UI library and add it to your JSX code. Here's an example of a basic usage:
+This is a simple example of the file `@/components/ui/drawer` which demonstates the drawer component in it's barest form.
 
-```jsx
-import { Button } from "your-ui-library";
+The drawer itself is built using `Dialog` from **HeadlessUI**. To keep it simple it uses only the outermost parts of the `Dialog` component but not the inner components such as **Title** or **Description**. You however can use these in the children you pass to it or not depending on your circumstances.
 
-function MyComponent() {
-  return (
-    <Button onClick={() => console.log("Button clicked!")}>Click me!</Button>
-  );
+<CodeBlock
+  title="Basic import"
+  fit={true}
+  snippet={`
+// components
+import { Dialog } from "@headlessui/react"
+
+// utils
+import { motion, AnimatePresence } from "framer-motion"
+import { cva } from "class-variance-authority"
+import mergeClasses from "@/utils/helpers/mergeClasses"
+
+const Drawer = ({ isOpen, setIsOpen, direction, children, className }) => {
+// variant for direction
+const directionVariant = {
+// variants
 }
-```
+
+      let baseDrawerStyles = cva([
+         // default styling
+      ], {
+          variants: {
+              // dynamic styling for direction
+              direction: {
+                  left: [],
+                  right: [],
+                  top: [],
+                  bottom: [],
+              },
+          },
+          defaultVariants: {
+              direction: 'left',
+          },
+      })
+
+      return (
+          <AnimatePresence>
+              {isOpen && (
+                  <Dialog
+                      static
+                      open={isOpen}
+                      onClose={() => setIsOpen(false)}
+                      className="relative z-50">
+
+                      {/* The backdrop, rendered as a fixed sibling to the panel container */}
+                      <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.15, delay: 0.1 }}
+                          className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80" aria-hidden="true" />
+
+                      {/* Full-screen container to center the panel */}
+                      <div className="fixed inset-0">
+                          <Dialog.Panel
+                              variants={directionVariant}
+                              as={motion.div}
+                              custom={direction}
+                              initial="hidden"
+                              animate="visible"
+                              exit="hidden"
+                              transition={{ duration: 0.25, ease: 'easeInOut' }}
+                              className={mergeClasses(baseDrawerStyles({ direction }), className)}
+                          >
+                              {children}
+                          </Dialog.Panel>
+                      </div>
+                  </Dialog>
+              )}
+          </AnimatePresence>
+      )
+
+}
+
+export default Drawer
+`}
+
+/>
+
+## Styling
+
+The styling below is taken as an inspiration from the **Vercel** design principles. It allows for both light and dark mode and takes the following props:
+
+- direction
+- isOpen
+- setIsOpen
+
+<CodeBlock
+  title="General styling"
+  snippet={`
+  // styling
+let baseDrawerStyles = cva([
+        'absolute',
+        'p-8',
+        'bg-tertiary-50 dark:bg-tertiary-950',
+        'shadow-md'
+    ], {
+        variants: {
+            direction: {
+                left: [
+                    'h-full',
+                    'top-0',
+                    'left-0',
+                    'border-r',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+                right: [
+                    'h-full',
+                    'top-0',
+                    'right-0',
+                    'border-l',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+                top: [
+                    'w-full',
+                    'top-0',
+                    'inset-x-0',
+                    'border-b',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+                bottom: [
+                    'w-full',
+                    'bottom-0',
+                    'inset-x-0',
+                    'border-t',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+            },
+        },
+        defaultVariants: {
+            direction: 'left',
+        },
+    })
+`}
+/>
+
+## Example
+
+Below is an example of how you might use the `Drawer` in a project.
+
+<CodeBlock
+  title="Example Code"
+  fit={true}
+  snippet={
+    `
+    // -- /pages/details.js
+
+    // state
+    import {useState} from 'react'
+
+    // components
+    import Drawer from '@/components/ui/drawer'
+    import Button from '@/components/ui/button'
+
+    const Page = () => {
+      // state
+      let [isOpen, setIsOpen] = useState(false)
+
+      return (
+        <div className='flex items-center justify-between w-full px-3 py-2'>
+          <Drawer>
+            <p>Hello from the drawer</p>
+          </Drawer>
+          <Button
+            onClick={()=> setIsOpen(true)}
+            type='button'
+            size='sm'>Open Drawer</Button>
+        </div>
+      )
+    }
+
+    export default Page
+    `
+    }
+
+/>
+
+## Full Code
+
+Below is the full code for `@/components/ui/button`.
+
+<CodeBlock 
+title='Completed component'
+snippet={`
+// components
+import { Dialog } from "@headlessui/react"
+
+// utils
+import { motion, AnimatePresence } from "framer-motion"
+import { cva } from "class-variance-authority"
+import mergeClasses from "@/utils/helpers/mergeClasses"
+
+const Drawer = ({ isOpen, setIsOpen, direction, children, className }) => {
+// variant for direction
+const directionVariant = {
+hidden: (direction) => ({
+x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : '0%',
+y: direction === 'top' ? '-100%' : direction === 'bottom' ? '100%' : '0%'
+}),
+visible: {
+x: 0,
+y: 0,
+},
+}
+
+    let baseDrawerStyles = cva([
+        'absolute',
+        'p-8',
+        'bg-tertiary-50 dark:bg-tertiary-950',
+        'shadow-md'
+    ], {
+        variants: {
+            direction: {
+                left: [
+                    'h-full',
+                    'top-0',
+                    'left-0',
+                    'border-r',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+                right: [
+                    'h-full',
+                    'top-0',
+                    'right-0',
+                    'border-l',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+                top: [
+                    'w-full',
+                    'top-0',
+                    'inset-x-0',
+                    'border-b',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+                bottom: [
+                    'w-full',
+                    'bottom-0',
+                    'inset-x-0',
+                    'border-t',
+                    'border-tertiary-200 dark:border-tertiary-700',
+                ],
+            },
+        },
+        defaultVariants: {
+            direction: 'left',
+        },
+    })
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <Dialog
+                    static
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    className="relative z-50">
+
+                    {/* The backdrop, rendered as a fixed sibling to the panel container */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15, delay: 0.1 }}
+                        className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80" aria-hidden="true" />
+
+                    {/* Full-screen container to center the panel */}
+                    <div className="fixed inset-0">
+                        <Dialog.Panel
+                            variants={directionVariant}
+                            as={motion.div}
+                            custom={direction}
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            transition={{ duration: 0.25, ease: 'easeInOut' }}
+                            className={mergeClasses(baseDrawerStyles({ direction }), className)}
+                        >
+                            {children}
+                        </Dialog.Panel>
+                    </div>
+                </Dialog>
+            )}
+        </AnimatePresence>
+    )
+
+}
+
+export default Drawer;
+
+`
+}/>
+
+## Props
+
+Below is a table of props for use within the `Button` component.
+
+| Prop                                          | Type                            | Default                         | Description                                                     |
+| --------------------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------------------------------- |
+| <TableProp type='solid'>direction</TableProp> | <TableProp>String</TableProp>   | <NoWrap>"left"</NoWrap>         | The direction in which the drawer will be positioned.           |
+| <TableProp type='solid'>isOpen</TableProp>    | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Whether or not the drawer is currently open.                    |
+| <TableProp type='solid'>setIsOpen</TableProp> | <TableProp>Function</TableProp> | <NoWrap>{`( ) => { }`}</NoWrap> | A fn to open and close the modal from clicking teh backdrop.    |
+| <TableProp type='solid'>children</TableProp>  | -                               | <NoWrap>null</NoWrap>           | Child elements that will be rendered inside the button element. |
+| <TableProp type='solid'>className</TableProp> | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | CSS class name(s) to apply to the button element.               |
+
+## Demonstration
+
+Buttons come with three different styles: Default, Outline and Ghost. Below is a simple demonstration of how each button looks with the various props applied and a fixed `style` . Toggle between default, primary and secondary to see your color scheme reflected in the `button` component.
+
+<DrawerDemonstration />
