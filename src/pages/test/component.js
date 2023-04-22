@@ -1,19 +1,10 @@
-import { useState } from 'react'
-
-import Button from '@/components/ui/button'
-import Drawer from '@/components/ui/drawer'
-
-const Page = () => {
-    const [isOpen, setIsOpen] = useState(false)
-
+const Component = () => {
 
     return (
-        <div>
-            <Drawer isOpen={isOpen} setIsOpen={setIsOpen} direction='right'>Hello from the drawer</Drawer>
+        <div className="flex flex-col gap-4">
 
-            <Button onClick={() => setIsOpen(true)}>Open Drawer</Button>
         </div>
     )
 }
 
-export default Page
+export default Component
