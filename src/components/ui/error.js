@@ -7,6 +7,7 @@ import { cva } from 'class-variance-authority'
 import clsx from 'clsx'
 
 const Error = ({
+    icon = true,
     title = 'Error',
     message = 'Something went wrong!',
     size = 'default'
@@ -33,8 +34,7 @@ const Error = ({
 
     return (
         <div className={mergeClasses(baseErrorStyles({ size }))}>
-            <AiOutlineExclamationCircle className={clsx('flex-shrink-0',
-                size === 'sm' ? 'mt-1' : 'mt-[5px]')} />
+            {icon && <AiOutlineExclamationCircle className={clsx('flex-shrink-0', size === 'sm' ? 'mt-1' : 'mt-[5px]')} />}
             <p><span className='font-medium'>{title && `${title}: `}</span>{message}</p>
         </div>
     )
