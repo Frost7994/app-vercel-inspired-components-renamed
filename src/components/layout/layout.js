@@ -127,9 +127,12 @@ const Layout = ({ children }) => {
             <div className="w-full h-14 flex items-center justify-between px-4 md:px-8 border-b border-tertiary-200 dark:border-tertiary-700">
                 <p className="text-xl font-medium">Apex<span className="text-primary-500">UI</span></p>
                 <Switch
-                    values={['light', 'dark']}
-                    active={theme}
-                    setActive={setTheme}
+                    values={[
+                        { name: 'light', value: false },
+                        { name: 'dark', value: true }
+                    ]}
+                    active={theme === 'dark' ? true : false}
+                    onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                     size='sm'
                 />
             </div>

@@ -1,3 +1,5 @@
+// state
+import { useState } from 'react'
 
 // components
 import { RadioGroup } from '@headlessui/react'
@@ -11,8 +13,7 @@ import mergeClasses from '@/utils/helpers/mergeClasses'
 
 const Switch = ({
     values,
-    active,
-    setActive,
+    onChange = () => { },
     size,
     disabled,
     className,
@@ -63,6 +64,13 @@ const Switch = ({
                 true: [],
             }
         },
+        compoundVariants: [
+            {
+                checked: false,
+                disabled: true,
+                className: 'opacity-25',
+            }
+        ],
         defaultVariants: {
             size: 'default',
             checked: false,
@@ -70,18 +78,25 @@ const Switch = ({
         },
     })
 
+    let [active, setActive] = useState(
+        values.find((value) => value.value === false)
+    )
+
     return (
         <RadioGroup
             disabled={disabled}
-            value={active}
-            onChange={setActive}
+            value={active.value}
+            onChange={(val) => {
+                setActive(values.find((value) => value.value === val))
+                onChange()
+            }}
             className={clsx('flex flex-shrink-0 items-center h-fit w-fit border border-tertiary-200 bg-tertiary-50 dark:border-tertiary-700 dark:bg-tertiary-950 p-1 rounded-md', className)}>
             {values.map((toggle) => (
                 <RadioGroup.Option
                     key={uuidv4()}
-                    value={toggle}>
+                    value={toggle.value}>
                     {({ checked }) => (
-                        <span className={mergeClasses(baseToggleStyles({ size, checked, disabled }))}>{toggle}</span>
+                        <span className={mergeClasses(baseToggleStyles({ size, checked, disabled }))}>{toggle.name}</span>
                     )}
                 </RadioGroup.Option>
             ))}
