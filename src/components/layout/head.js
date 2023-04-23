@@ -1,12 +1,12 @@
-import HeadWrapper from 'next/head'
+import HeadWrapper from "next/head";
 
 const Head = ({ children, title }) => {
-    return (
-        <HeadWrapper>
-            <title>Apex | {title}</title>
-            {children}
-        </HeadWrapper>
-    )
-}
+  return (
+    <HeadWrapper>
+      <title>Apex | {title}</title>
+      {children}
+    </HeadWrapper>
+  );
+};
 
-export default Head
+export default Head;
