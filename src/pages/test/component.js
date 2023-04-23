@@ -1,8 +1,10 @@
-import React from 'react'
+import TableDemonstration from "@/components/mdx/demonstration/tableDemonstration"
 
 const Test = () => {
   return (
-    <div>Test</div>
+    <div>
+      <TableDemonstration />
+    </div>
   )
 }
 

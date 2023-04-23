@@ -5,6 +5,8 @@ import mergeClasses from "@/utils/helpers/mergeClasses";
 const Input = ({
   type = "text",
   placeholder = "Some placeholder here...",
+  value = '',
+  onChange = () => { },
   size,
   prefix,
   suffix,
@@ -13,7 +15,11 @@ const Input = ({
   disabled,
 }) => {
   // styling
-  let baseInputContainerStyles = cva(["flex", "w-full"], {
+  let baseInputContainerStyles = cva([
+    "flex",
+    "w-full",
+    "transition-all"
+  ], {
     variants: {
       size: {
         sm: ["h-8"],
@@ -42,6 +48,7 @@ const Input = ({
       "justify-center",
       "h-full",
       "aspect-square",
+      "transition-all"
     ],
     {
       variants: {
@@ -73,6 +80,7 @@ const Input = ({
       "justify-center",
       "h-full",
       "aspect-square",
+      "transition-all"
     ],
     {
       variants: {
@@ -89,7 +97,13 @@ const Input = ({
   );
 
   let baseLeftIconStyles = cva(
-    ["absolute", "z-10", "text-tertiary-400", "dark:text-tertiary-500"],
+    [
+      "absolute",
+      "z-10",
+      "text-tertiary-400",
+      "dark:text-tertiary-500",
+      "transition-all"
+    ],
     {
       variants: {
         size: {
@@ -105,7 +119,13 @@ const Input = ({
   );
 
   let baseRightIconStyles = cva(
-    ["absolute", "z-10", "text-tertiary-400", "dark:text-tertiary-500"],
+    [
+      "absolute",
+      "z-10",
+      "text-tertiary-400",
+      "dark:text-tertiary-500",
+      "transition-all"
+    ],
     {
       variants: {
         size: {
@@ -136,6 +156,7 @@ const Input = ({
       "dark:focus:border-tertiary-50",
       "absolute",
       "inset-0",
+      "transition-all"
     ],
     {
       variants: {
@@ -220,6 +241,8 @@ const Input = ({
         <input
           type={type}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
           disabled={disabled}
           className={mergeClasses(
             baseInputStyles({

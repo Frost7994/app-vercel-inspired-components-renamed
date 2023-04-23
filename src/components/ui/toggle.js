@@ -12,7 +12,7 @@ const Toggle = ({ size, variant, disabled, enabled, setEnabled }) => {
       "transform",
       "rounded-full",
       "bg-tertiary-50",
-      "transition",
+      "transition-all",
     ],
     {
       variants: {
@@ -61,7 +61,7 @@ const Toggle = ({ size, variant, disabled, enabled, setEnabled }) => {
   );
 
   let toggleContainerStyles = cva(
-    ["relative", "inline-flex", "items-center", "rounded-full"],
+    ["relative", "inline-flex", "items-center", "rounded-full", "transition-all"],
     {
       variants: {
         size: {

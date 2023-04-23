@@ -6,7 +6,7 @@ const Slider = ({
   min = 0,
   max = 100,
   value,
-  onChange = () => {},
+  onChange = () => { },
   step,
   ariaLabel = "",
 }) => {
@@ -17,8 +17,8 @@ const Slider = ({
       max={max}
       step={step}
       aria-label={ariaLabel}
-      value={value}
-      onChange={onChange}
+      value={[value]}
+      onValueChange={onChange}
       className="relative flex w-full items-center"
     >
       <SliderRoot.Track className="relative h-0.5 flex-1 rounded-full bg-tertiary-200 dark:bg-tertiary-700">

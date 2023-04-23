@@ -5,20 +5,16 @@ import { useState } from "react";
 import Checkbox from "@/components/ui/checkbox";
 import RadioGroup from "@/components/ui/radioGroup";
 
-const ButtonDemonstration = () => {
+const CheckboxDemonstration = () => {
   // data
   const variants = ["default", "primary", "secondary"];
-  const styles = ["default", "outline", "ghost"];
   const sizes = ["sm", "default", "lg"];
 
   // state
   const [checked, setChecked] = useState(false);
   const [variant, setVariant] = useState("default");
-  const [style, setStyle] = useState("default");
   const [size, setSize] = useState("default");
-  const [fullWidth, setFullWidth] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   return (
     <div className="not-prose">
@@ -48,26 +44,6 @@ const ButtonDemonstration = () => {
             />
           </div>
           <div className="flex flex-col">
-            <p>Style:</p>
-            <RadioGroup
-              size="sm"
-              values={styles}
-              active={style}
-              setActive={setStyle}
-            />
-          </div>
-          <div className="flex flex-col">
-            <p>Full width:</p>
-            <RadioGroup
-              size="sm"
-              values={["true", "false"]}
-              active={fullWidth ? "true" : "false"}
-              setActive={(value) =>
-                setFullWidth(value === "true" ? true : false)
-              }
-            />
-          </div>
-          <div className="flex flex-col">
             <p>Disabled:</p>
             <RadioGroup
               size="sm"
@@ -76,15 +52,6 @@ const ButtonDemonstration = () => {
               setActive={(value) =>
                 setDisabled(value === "true" ? true : false)
               }
-            />
-          </div>
-          <div className="flex flex-col">
-            <p>Loading:</p>
-            <RadioGroup
-              size="sm"
-              values={["true", "false"]}
-              active={loading ? "true" : "false"}
-              setActive={(value) => setLoading(value === "true" ? true : false)}
             />
           </div>
         </div>
@@ -103,4 +70,4 @@ const ButtonDemonstration = () => {
   );
 };
 
-export default ButtonDemonstration;
+export default CheckboxDemonstration;

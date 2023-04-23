@@ -141,234 +141,139 @@ The `Checkbox` is built using **@RadixUI**, **Class-Variance-Authority** and **T
 
 ## Full Code
 
-Below is the full code for `@/components/ui/button`.
+Below is the full code for `@/components/ui/checkbox`.
 
 <CodeBlock 
 title='Completed component'
 snippet={`
 // base
-import { ImSpinner3 } from "react-icons/im"
+import { BiCheck } from "react-icons/bi";
+
+// components
+import * as CheckboxRoot from "@radix-ui/react-checkbox";
 
 // utils
-import { cva } from "class-variance-authority"
-import mergeClasses from "@/utils/helpers/mergeClasses"
+import { cva } from "class-variance-authority";
+import mergeClasses from "@/utils/helpers/mergeClasses";
 
-// styling
-export const baseButtonStyles = cva([
-'transition-all',
-'ease-in-out',
-'active:scale-95',
-'border',
-'rounded-md',
-'font-medium',
-'flex-shrink-0',
-], {
-variants: {
-size: {
-sm: [
-'text-sm',
-'px-2',
-'py-1'
-],
-default: [
-'text-base',
-'px-3',
-'py-2'
-],
-lg: [
-'text-lg',
-'px-4',
-'py-3'
-]
-},
-disabled: {
-true: [
-'pointer-events-none',
-'opacity-40',
-]
-},
-loading: {
-true: [
-'pointer-events-none',
-'opacity-40',
-]
-},
-fullWidth: {
-true: [
-'flex-1',
-]
-}
-},
-compoundVariants: [
-{
-variant: 'default',
-style: 'default',
-className: [
-'text-tertiary-50 dark:text-tertiary-950',
-'bg-tertiary-950 dark:bg-tertiary-50',
-'border-tertiary-950 dark:border-tertiary-50',
-'hover:bg-transparent dark:hover:bg-transparent',
-'hover:text-tertiary-950 dark:hover:text-tertiary-200',
-'hover:border-tertiary-950 dark:hover:border-tertiary-200',
-]
-},
-{
-variant: 'default',
-style: 'outline',
-className: [
-'text-tertiary-950 dark:text-tertiary-200',
-'bg-transparent',
-'border-tertiary-950 dark:border-tertiary-200',
-'hover:bg-tertiary-950 dark:hover:bg-tertiary-200',
-'hover:border-tertiary-950 dark:hover:border-tertiary-200',
-'hover:text-tertiary-200 dark:hover:text-tertiary-950',
-]
-},
-{
-variant: 'default',
-style: 'ghost',
-className: [
-'border-transparent',
-'text-tertiary-950 dark:text-tertiary-50',
-'hover:bg-tertiary-200 hover:dark:bg-tertiary-800',
-]
-},
-{
-variant: 'primary',
-style: 'default',
-className: [
-'text-tertiary-50',
-'bg-primary-500',
-'border-primary-500',
-'hover:bg-transparent',
-'hover:text-primary-500',
-'hover:border-primary-500',
-]
-},
-{
-variant: 'primary',
-style: 'outline',
-className: [
-'text-primary-500',
-'bg-transparent',
-'border-primary-500',
-'hover:bg-primary-500',
-'hover:border-primary-500',
-'hover:text-tertiary-50',
-]
-},
-{
-variant: 'primary',
-style: 'ghost',
-className: [
-'border-transparent',
-'text-primary-500',
-'hover:bg-primary-100 hover:dark:bg-primary-800',
-]
-},
-{
-variant: 'secondary',
-style: 'default',
-className: [
-'text-tertiary-50',
-'bg-secondary-500',
-'border-secondary-500',
-'hover:bg-transparent',
-'hover:text-secondary-500',
-'hover:border-secondary-500',
-]
-},
-{
-variant: 'secondary',
-style: 'outline',
-className: [
-'text-secondary-500',
-'bg-transparent',
-'border-secondary-500',
-'hover:bg-secondary-500',
-'hover:border-secondary-500',
-'hover:text-tertiary-50',
-]
-},
-{
-variant: 'secondary',
-style: 'ghost',
-className: [
-'border-transparent',
-'text-secondary-500',
-'hover:bg-secondary-100 hover:dark:bg-secondary-800',
-]
-},
-
-    ],
-    defaultVariants: {
-        size: 'default',
-        style: 'default',
-        variant: 'default',
-        disabled: false,
-        loading: false,
-    }
-
-})
-
-const Button = ({
-children,
-type = 'button',
-onClick,
-size,
-style,
-variant,
-disabled,
-loading,
-fullWidth,
-className
+const Checkbox = ({
+  disabled,
+  checked,
+  setChecked,
+  defaultChecked = false,
+  size,
+  variant,
+  className,
 }) => {
-return (
+  // styling
+  let baseCheckboxStyles = cva(
+    [
+      "border",
+      "overflow-hidden",
+      "rounded-md",
+      "flex",
+      "items-center",
+      "justify-center",
+      "transition-all",
+    ],
+    {
+      variants: {
+        size: {
+          sm: ["h-4", "w-4"],
+          default: ["h-5", "w-5"],
+          lg: ["h-6", "w-6"],
+        },
+        variant: {
+          default: [
+            "border-tertiary-300",
+            "dark:border-tertiary-700",
+            "hover:border-tertiary-950",
+            "hover:dark:border-tertiary-50",
+          ],
+          primary: ["border-primary-500", "hover:border-primary-600"],
+          secondary: ["border-secondary-500", "hover:border-secondary-600"],
+        },
+        disabled: {
+          true: ["disabled:pointer-events-none", "disabled:opacity-40"],
+        },
+      },
+      defaultVariants: {
+        size: "default",
+        variant: "default",
+      },
+    }
+  );
 
-<button
-  type={type}
-  onClick={onClick}
-  className={mergeClasses(
-    baseButtonStyles({
-      size,
-      variant,
-      style,
-      disabled,
-      loading,
-      fullWidth,
-    }),
-    className
-  )}
->
-  {loading && <ImSpinner3 className="mr-2 inline-flex animate-spin" />}
-  <span>{children}</span>
-</button>
-) }
+  let baseCheckboxIndicatorStyles = cva(
+    ["flex", "items-center", "justify-center", "h-full", "w-full"],
+    {
+      variants: {
+        size: {
+          sm: ["text-xs"],
+          default: ["text-base"],
+          lg: ["text-lg"],
+        },
+        variant: {
+          default: [
+            "bg-tertiary-950",
+            "dark:bg-tertiary-50",
+            "text-tertiary-50",
+            "dark:text-tertiary-950",
+          ],
+          primary: ["bg-primary-500", "text-primary-50"],
+          secondary: ["bg-secondary-500", "text-secondary-50"],
+        },
+      },
+      defaultVariants: {
+        variant: "default",
+        size: "default",
+      },
+    }
+  );
 
-export default Button;
+  return (
+    <CheckboxRoot.Root
+      disabled={disabled}
+      id="c1"
+      defaultChecked={defaultChecked}
+      checked={checked}
+      onCheckedChange={setChecked}
+      className={mergeClasses(
+        baseCheckboxStyles({ variant, size, disabled }),
+        className
+      )}
+    >
+      <CheckboxRoot.Indicator
+        className={mergeClasses(baseCheckboxIndicatorStyles({ variant, size }))}
+      >
+        <BiCheck />
+      </CheckboxRoot.Indicator>
+    </CheckboxRoot.Root>
+  );
+};
+
+export default Checkbox;
+
 
 `
 }/>
 
 ## Props
 
-Below is a table of props for use within the `Button` component.
+Below is a table of props for use within the `Checkbox` component.
 
 | Prop                                          | Type                            | Default                         | Description                                                                                                                                                                                            |
 | --------------------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <TableProp type='solid'>children</TableProp>  | -                               | <NoWrap>null</NoWrap>           | Child elements that will be rendered inside the button element.                                                                                                                                        |
-| <TableProp type='solid'>type</TableProp>      | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | Defines the type of button. Possible values are `button` , `submit` or `reset` . By default, no type attribute is included in the generated HTML, so the button behaves like a regular button element. |
-| <TableProp type='solid'>onClick</TableProp>   | <TableProp>Function</TableProp> | <NoWrap>{`( ) => { }`}</NoWrap> | The click event handler function.                                                                                                                                                                      |
+| <TableProp type='solid'>defaultChecked</TableProp>      | <TableProp>Bool</TableProp>   | <NoWrap>false</NoWrap>      | The default state of the checkbox. |
+| <TableProp type='solid'>checked</TableProp>      | <TableProp>Bool</TableProp>   | <NoWrap>false</NoWrap>      | The active state of the checkbox. |
+| <TableProp type='solid'>setChecked</TableProp>      | <TableProp>Function</TableProp>   | <NoWrap>{`( ) => { }`}</NoWrap>      | Function to change the active state of the checkbox. |
 | <TableProp type='solid'>size</TableProp>      | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The size of the button. Possible values are `sm` , `default` and `lg` .                                                                                                                                |
-| <TableProp type='solid'>style</TableProp>     | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The visual style of the button. Possible values are `default` , `outline` and `ghost` .                                                                                                                |
 | <TableProp type='solid'>variant</TableProp>   | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The visual colors of the button. Possible values are `default` , `primary` and `secondary` .                                                                                                           |
 | <TableProp type='solid'>disabled</TableProp>  | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Disables the button.                                                                                                                                                                                   |
-| <TableProp type='solid'>loading</TableProp>   | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Shows a loading spinner in beside the button label.                                                                                                                                                    |
-| <TableProp type='solid'>fullWidth</TableProp> | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Sets the button to full width.                                                                                                                                                                         |
 | <TableProp type='solid'>className</TableProp> | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | CSS class name(s) to apply to the button element.                                                                                                                                                      |
 
 ## Demonstration
 
-Buttons come with three different styles: **Default**, **Outline** and **Ghost**. Below is a simple demonstration of how each button looks with the various props applied and a fixed `style` . Toggle between **Default**, **Primary** and **Secondary** to see your color scheme reflected in the `button` component.
+`Checkbox` has three variant options: __Default__, __Primary__ and __Secondary__. As well as that it can be checked, take a size prop and styling depending on it's disabled state.
 
-<ButtonDemonstration />
+<CheckboxDemonstration />

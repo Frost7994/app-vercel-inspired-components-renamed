@@ -158,7 +158,7 @@ const Layout = ({ children }) => {
             { name: "light", value: false },
             { name: "dark", value: true },
           ]}
-          active={theme === "dark" ? true : false}
+          defaultActive={theme === "dark" ? true : false}
           onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
           size="sm"
         />

@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
 import mergeClasses from "@/utils/helpers/mergeClasses";
 
-const Switch = ({ values, onChange = () => {}, size, disabled, className }) => {
+const Switch = ({ values, defaultActive, onChange = () => { }, size, disabled, className }) => {
   let baseToggleStyles = cva(
     [
       "flex",
@@ -65,7 +65,7 @@ const Switch = ({ values, onChange = () => {}, size, disabled, className }) => {
   );
 
   let [active, setActive] = useState(
-    values.find((value) => value.value === false)
+    values.find((value) => value.value === defaultActive)
   );
 
   return (
@@ -77,7 +77,7 @@ const Switch = ({ values, onChange = () => {}, size, disabled, className }) => {
         onChange();
       }}
       className={clsx(
-        "flex h-fit w-fit flex-shrink-0 items-center rounded-md border border-tertiary-200 bg-tertiary-50 p-1 dark:border-tertiary-700 dark:bg-tertiary-950",
+        "transition-all flex h-fit w-fit flex-shrink-0 items-center rounded-md border border-tertiary-200 bg-tertiary-50 p-1 dark:border-tertiary-700 dark:bg-tertiary-950",
         className
       )}
     >

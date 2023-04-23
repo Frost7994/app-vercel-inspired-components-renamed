@@ -2,7 +2,7 @@
 import { BiArrowToTop, BiArrowToBottom } from "react-icons/bi";
 
 const Table = ({ tableInstance }) => {
-  let { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+  let { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
     tableInstance;
 
   return (
@@ -36,7 +36,7 @@ const Table = ({ tableInstance }) => {
         {...getTableBodyProps()}
         className="divide-y divide-tertiary-200 dark:divide-tertiary-700"
       >
-        {rows.map((row, k) => {
+        {page.map((row, k) => {
           prepareRow(row);
           return (
             <tr key={`table-row-${k}`} {...row.getRowProps()}>

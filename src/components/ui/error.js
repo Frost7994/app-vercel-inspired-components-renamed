@@ -13,7 +13,7 @@ const Error = ({
   size = "default",
 }) => {
   // styling
-  let baseErrorStyles = cva(["flex", "items-start", "gap-1", "text-red-500"], {
+  let baseErrorStyles = cva(["flex", "items-start", "gap-1", "text-red-500", "transition-all"], {
     variants: {
       size: {
         sm: "text-sm",

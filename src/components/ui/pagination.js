@@ -214,7 +214,9 @@ const Pagination = (props) => {
       })}
       {/*  Right Navigation arrow */}
       <li>
-        <PaginationButton onClick={onNext} disabled={currentPage === 20}>
+        <PaginationButton onClick={onNext} disabled={
+          currentPage === paginationRange[paginationRange.length - 1]
+        }>
           <BiChevronRight />
         </PaginationButton>
       </li>

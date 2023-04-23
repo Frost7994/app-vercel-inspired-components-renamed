@@ -52,12 +52,12 @@ const Tabs = ({ tabs, children, vertical, disabled, variant }) => {
         {
           variant: ["primary", "secondary", "default"],
           selected: false,
-          className: ["border-etrtiary-200", "dark:border-tertiary-700"],
+          className: ["border-tertiary-200", "dark:border-tertiary-700"],
         },
         {
           variant: "default",
           selected: true,
-          className: ["border-tertiary-950", "dark:border-tertiary-950"],
+          className: ["border-tertiary-950", "dark:border-tertiary-50"],
         },
         {
           variant: "primary",

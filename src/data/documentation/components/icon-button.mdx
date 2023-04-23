@@ -1,62 +1,461 @@
 ---
 title: "Icon Button"
 date: Oct 2022
-description: "Button component is used to trigger an action or event, such as submitting a form, opening a Dialog, canceling an action, or performing a delete operation. All props, variants and my use cases are listed below."
 author: Tommy Byrne
 tag: "Components"
-toggle: true
-toggleValues: ["default", "primary", "secondary"]
 ---
+
+<GithubButton repo="/components/ui/iconButton.js" />
 
 ## Introduction
 
 The `Button` component is a UI element used to trigger an action, such as submitting a form or navigating to another page. It can be styled to fit the design of your application, and supports various props to control its behavior and appearance.
 
-The Switch Group on the top right of this page will allow you to toggle between the `styles` available for the `Button` component.
-
-There are two types of button in this project:
-
-- Default
-- Icon
-
-## Default Button
-
-### Description
-
-### Anatomy
+## Anatomy
 
 The `Button` component consists of the following elements:
 
-- `button` HTML element
+- `Button` HTML element
 - Inner text or child component
-
-## Props
-
-The `Button` component supports the following props:
-
-| Prop        | Type     | Default   | Description                                                                                       |
-| ----------- | -------- | --------- | ------------------------------------------------------------------------------------------------- |
-| `children`  | `node`   | `null`    | The content to be displayed inside the button.                                                    |
-| `onClick`   | `func`   |           | Function to be called when the button is clicked.                                                 |
-| `type`      | `string` | `button`  | The type of button, either `'button'`, `'submit'`, or `'reset'`.                                  |
-| `className` | `string` |           | Custom class name(s) to be added to the button.                                                   |
-| `disabled`  | `bool`   | `false`   | Whether the button is disabled or not.                                                            |
-| `loading`   | `bool`   | `false`   | Whether the button is in a loading state or not.                                                  |
-| `size`      | `string` | `md`      | The size of the button, either `'sm'`, `'md'`, or `'lg'`.                                         |
-| `style`     | `object` | `{}`      | Custom styles to be applied to the button.                                                        |
-| `variant`   | `string` | `default` | The color variant of the button, either `'default'`, `'primary'`, `'secondary'`, or `'tertiary'`. |
-| `fullWidth` | `bool`   | `false`   | Whether the button should be displayed at full width or not.                                      |
 
 ## Usage
 
-To use the `Button` component, import it from your UI library and add it to your JSX code. Here's an example of a basic usage:
+To use the `Button` component, simply import it from `@/components/ui/button` and use it as follows:
 
-```jsx
-import { Button } from "your-ui-library";
+<CodeBlock
+  title="Basic import"
+  fit={true}
+  snippet={`
+    // components
+    import Button from '@/components/ui/button'
 
-function MyComponent() {
-  return (
-    <Button onClick={() => console.log("Button clicked!")}>Click me!</Button>
-  );
+    const Page = () => {
+      return (
+        <div className='flex flex-col justify-center items-center gap-2'>
+            <h1 className='font-bold text-4xl'>The Example Page</h1>
+            <Button onClick={() => {
+                alert('Hello using the button')
+            }}>Click Me</Button>
+        </div>
+      )
+    }
+
+    export default Page
+    `}
+
+/>
+
+## Styling
+
+The styling below is taken as an inspiration from the **Vercel** design principles. It allows for both light and dark mode and takes the following props:
+
+- variant
+- style
+- size
+- fullWidth
+- disabled
+- loading
+
+You can use these variants and styles directly, edit the styling or edit the variants as you see fit for your project.
+
+<CodeBlock
+  title='General styling'
+  snippet={`
+  // styling
+export const baseButtonStyles = cva([
+    'transition-all',
+    'ease-in-out',
+    'active:scale-95',
+    'border',
+    'rounded-md',
+    'font-medium',
+    'flex-shrink-0',
+], {
+    variants: {
+        size: {
+            sm: [
+                'text-sm',
+                'px-2',
+                'py-1'
+            ],
+            default: [
+                'text-base',
+                'px-3',
+                'py-2'
+            ],
+            lg: [
+                'text-lg',
+                'px-4',
+                'py-3'
+            ]
+        },
+        disabled: {
+            true: [
+                'pointer-events-none',
+                'opacity-40',
+            ]
+        },
+        loading: {
+            true: [
+                'pointer-events-none',
+                'opacity-40',
+            ]
+        },
+        fullWidth: {
+            true: [
+                'flex-1',
+            ]
+        }
+    },
+    compoundVariants: [
+        {
+            variant: 'default',
+            style: 'default',
+            className: [
+                'text-tertiary-50 dark:text-tertiary-950',
+                'bg-tertiary-950 dark:bg-tertiary-50',
+                'border-tertiary-950 dark:border-tertiary-50',
+                'hover:bg-transparent dark:hover:bg-transparent',
+                'hover:text-tertiary-950 dark:hover:text-tertiary-200',
+                'hover:border-tertiary-950 dark:hover:border-tertiary-200',
+            ]
+        },
+        {
+            variant: 'default',
+            style: 'outline',
+            className: [
+                'text-tertiary-950 dark:text-tertiary-200',
+                'bg-transparent',
+                'border-tertiary-950 dark:border-tertiary-200',
+                'hover:bg-tertiary-950 dark:hover:bg-tertiary-200',
+                'hover:border-tertiary-950 dark:hover:border-tertiary-200',
+                'hover:text-tertiary-200 dark:hover:text-tertiary-950',
+            ]
+        },
+        {
+            variant: 'default',
+            style: 'ghost',
+            className: [
+                'border-transparent',
+                'text-tertiary-950 dark:text-tertiary-50',
+                'hover:bg-tertiary-200 hover:dark:bg-tertiary-800',
+            ]
+        },
+        {
+            variant: 'primary',
+            style: 'default',
+            className: [
+                'text-tertiary-50',
+                'bg-primary-500',
+                'border-primary-500',
+                'hover:bg-transparent',
+                'hover:text-primary-500',
+                'hover:border-primary-500',
+            ]
+        },
+        {
+            variant: 'primary',
+            style: 'outline',
+            className: [
+                'text-primary-500',
+                'bg-transparent',
+                'border-primary-500',
+                'hover:bg-primary-500',
+                'hover:border-primary-500',
+                'hover:text-tertiary-50',
+            ]
+        },
+        {
+            variant: 'primary',
+            style: 'ghost',
+            className: [
+                'border-transparent',
+                'text-primary-500',
+                'hover:bg-primary-100 hover:dark:bg-primary-800',
+            ]
+        },
+        {
+            variant: 'secondary',
+            style: 'default',
+            className: [
+                'text-tertiary-50',
+                'bg-secondary-500',
+                'border-secondary-500',
+                'hover:bg-transparent',
+                'hover:text-secondary-500',
+                'hover:border-secondary-500',
+            ]
+        },
+        {
+            variant: 'secondary',
+            style: 'outline',
+            className: [
+                'text-secondary-500',
+                'bg-transparent',
+                'border-secondary-500',
+                'hover:bg-secondary-500',
+                'hover:border-secondary-500',
+                'hover:text-tertiary-50',
+            ]
+        },
+        {
+            variant: 'secondary',
+            style: 'ghost',
+            className: [
+                'border-transparent',
+                'text-secondary-500',
+                'hover:bg-secondary-100 hover:dark:bg-secondary-800',
+            ]
+        },
+
+      ],
+      defaultVariants: {
+          size: 'default',
+          style: 'default',
+          variant: 'default',
+          disabled: false,
+          loading: false,
+      }
+
+})
+`
 }
-```
+/>
+
+## Functionality
+
+The button is built using **Class-Variance-Authority** and **TailwindCSS**. It is a simple UI component used to trigger events.
+
+## Full Code
+
+Below is the full code for `@/components/ui/button`.
+
+<CodeBlock 
+title='Completed component'
+snippet={`
+// base
+import { ImSpinner3 } from "react-icons/im"
+
+// utils
+import { cva } from "class-variance-authority"
+import mergeClasses from "@/utils/helpers/mergeClasses"
+
+// styling
+export const baseButtonStyles = cva([
+'transition-all',
+'ease-in-out',
+'active:scale-95',
+'border',
+'rounded-md',
+'font-medium',
+'flex-shrink-0',
+], {
+variants: {
+size: {
+sm: [
+'text-sm',
+'px-2',
+'py-1'
+],
+default: [
+'text-base',
+'px-3',
+'py-2'
+],
+lg: [
+'text-lg',
+'px-4',
+'py-3'
+]
+},
+disabled: {
+true: [
+'pointer-events-none',
+'opacity-40',
+]
+},
+loading: {
+true: [
+'pointer-events-none',
+'opacity-40',
+]
+},
+fullWidth: {
+true: [
+'flex-1',
+]
+}
+},
+compoundVariants: [
+{
+variant: 'default',
+style: 'default',
+className: [
+'text-tertiary-50 dark:text-tertiary-950',
+'bg-tertiary-950 dark:bg-tertiary-50',
+'border-tertiary-950 dark:border-tertiary-50',
+'hover:bg-transparent dark:hover:bg-transparent',
+'hover:text-tertiary-950 dark:hover:text-tertiary-200',
+'hover:border-tertiary-950 dark:hover:border-tertiary-200',
+]
+},
+{
+variant: 'default',
+style: 'outline',
+className: [
+'text-tertiary-950 dark:text-tertiary-200',
+'bg-transparent',
+'border-tertiary-950 dark:border-tertiary-200',
+'hover:bg-tertiary-950 dark:hover:bg-tertiary-200',
+'hover:border-tertiary-950 dark:hover:border-tertiary-200',
+'hover:text-tertiary-200 dark:hover:text-tertiary-950',
+]
+},
+{
+variant: 'default',
+style: 'ghost',
+className: [
+'border-transparent',
+'text-tertiary-950 dark:text-tertiary-50',
+'hover:bg-tertiary-200 hover:dark:bg-tertiary-800',
+]
+},
+{
+variant: 'primary',
+style: 'default',
+className: [
+'text-tertiary-50',
+'bg-primary-500',
+'border-primary-500',
+'hover:bg-transparent',
+'hover:text-primary-500',
+'hover:border-primary-500',
+]
+},
+{
+variant: 'primary',
+style: 'outline',
+className: [
+'text-primary-500',
+'bg-transparent',
+'border-primary-500',
+'hover:bg-primary-500',
+'hover:border-primary-500',
+'hover:text-tertiary-50',
+]
+},
+{
+variant: 'primary',
+style: 'ghost',
+className: [
+'border-transparent',
+'text-primary-500',
+'hover:bg-primary-100 hover:dark:bg-primary-800',
+]
+},
+{
+variant: 'secondary',
+style: 'default',
+className: [
+'text-tertiary-50',
+'bg-secondary-500',
+'border-secondary-500',
+'hover:bg-transparent',
+'hover:text-secondary-500',
+'hover:border-secondary-500',
+]
+},
+{
+variant: 'secondary',
+style: 'outline',
+className: [
+'text-secondary-500',
+'bg-transparent',
+'border-secondary-500',
+'hover:bg-secondary-500',
+'hover:border-secondary-500',
+'hover:text-tertiary-50',
+]
+},
+{
+variant: 'secondary',
+style: 'ghost',
+className: [
+'border-transparent',
+'text-secondary-500',
+'hover:bg-secondary-100 hover:dark:bg-secondary-800',
+]
+},
+
+    ],
+    defaultVariants: {
+        size: 'default',
+        style: 'default',
+        variant: 'default',
+        disabled: false,
+        loading: false,
+    }
+
+})
+
+const Button = ({
+children,
+type = 'button',
+onClick,
+size,
+style,
+variant,
+disabled,
+loading,
+fullWidth,
+className
+}) => {
+return (
+
+<button
+  type={type}
+  onClick={onClick}
+  className={mergeClasses(
+    baseButtonStyles({
+      size,
+      variant,
+      style,
+      disabled,
+      loading,
+      fullWidth,
+    }),
+    className
+  )}
+>
+  {loading && <ImSpinner3 className="mr-2 inline-flex animate-spin" />}
+  <span>{children}</span>
+</button>
+) }
+
+export default Button;
+
+`
+}/>
+
+## Props
+
+Below is a table of props for use within the `Button` component.
+
+| Prop                                          | Type                            | Default                         | Description                                                                                                                                                                                            |
+| --------------------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <TableProp type='solid'>children</TableProp>  | -                               | <NoWrap>null</NoWrap>           | Child elements that will be rendered inside the button element.                                                                                                                                        |
+| <TableProp type='solid'>type</TableProp>      | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | Defines the type of button. Possible values are `button` , `submit` or `reset` . By default, no type attribute is included in the generated HTML, so the button behaves like a regular button element. |
+| <TableProp type='solid'>onClick</TableProp>   | <TableProp>Function</TableProp> | <NoWrap>{`( ) => { }`}</NoWrap> | The click event handler function.                                                                                                                                                                      |
+| <TableProp type='solid'>size</TableProp>      | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The size of the button. Possible values are `sm` , `default` and `lg` .                                                                                                                                |
+| <TableProp type='solid'>style</TableProp>     | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The visual style of the button. Possible values are `default` , `outline` and `ghost` .                                                                                                                |
+| <TableProp type='solid'>variant</TableProp>   | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The visual colors of the button. Possible values are `default` , `primary` and `secondary` .                                                                                                           |
+| <TableProp type='solid'>disabled</TableProp>  | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Disables the button.                                                                                                                                                                                   |
+| <TableProp type='solid'>loading</TableProp>   | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Shows a loading spinner in beside the button label.                                                                                                                                                    |
+| <TableProp type='solid'>fullWidth</TableProp> | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Sets the button to full width.                                                                                                                                                                         |
+| <TableProp type='solid'>className</TableProp> | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | CSS class name(s) to apply to the button element.                                                                                                                                                      |
+
+## Demonstration
+
+Buttons come with three different styles: **Default**, **Outline** and **Ghost**. Below is a simple demonstration of how each button looks with the various props applied and a fixed `style` . Toggle between **Default**, **Primary** and **Secondary** to see your color scheme reflected in the `button` component.
+
+<IconButtonDemonstration />
