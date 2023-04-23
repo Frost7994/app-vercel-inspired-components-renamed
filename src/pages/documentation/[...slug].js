@@ -13,13 +13,9 @@ import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 import rehypePrism from "rehype-prism-plus";
-import useMDXStore from "@/store/useMDXStore";
 import remarkGfm from "remark-gfm";
 
 const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
-  // store detructure
-  const store = useMDXStore();
-
   // get the previous and next page
   const currentCrumbIndex = breadcrumbs.findIndex(
     (crumb) => crumb.name === currentCrumb
@@ -40,8 +36,7 @@ const Documentation = ({ data, content, breadcrumbs, currentCrumb }) => {
           {...content}
           components={allMDXComponents}
           scope={{
-            // state will go here
-            store,
+            // state goes here
           }}
         />
       </MDXBody>
