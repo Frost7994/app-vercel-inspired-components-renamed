@@ -1,10 +1,10 @@
 // components
+import Head from "@/components/layout/head";
 import { MDXRemote } from "next-mdx-remote";
 import allMDXComponents from "@/components/mdx";
-import Head from "@/components/layout/head";
-import MDXHeader from "@/components/mdx/mdxHeader";
-import MDXFooter from "@/components/mdx/mdxFooter";
-import MDXBody from "@/components/mdx/mdxBody";
+import MDXHeader from "@/components/mdx/layout/mdxHeader";
+import MDXFooter from "@/components/mdx/layout/mdxFooter";
+import MDXBody from "@/components/mdx/layout/mdxBody";
 
 // utils
 import { serialize } from "next-mdx-remote/serialize";
