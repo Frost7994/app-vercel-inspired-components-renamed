@@ -20,28 +20,27 @@ The `Button` component consists of the following elements:
 
 ## Usage
 
-This is a simple example of the file `@/components/ui/button` which demonstates the button component in it's barest form.
+To use the `Button` component, simply import it from `@/components/ui/button` and use it as follows:
 
 <CodeBlock
   title="Basic import"
   fit={true}
   snippet={`
-    // utils
-    import { cva } from 'class-variance-authority'
+    // components
+    import Button from '@/components/ui/button'
 
-    export const baseButtonStyles = cva([
-      // base styling
-    ],{
-      // dynamic styling
-    })
-
-    const Button = ({children, ...props}) => {
+    const Page = () => {
       return (
-        <button {...props}>{children}</button>
+        <div className='flex flex-col justify-center items-center gap-2'>
+            <h1 className='font-bold text-4xl'>The Example Page</h1>
+            <Button onClick={() => {
+                alert('Hello using the button')
+            }}>Click Me</Button>
+        </div>
       )
     }
 
-    export default Button
+    export default Page
     `}
 
 />
@@ -223,37 +222,9 @@ export const baseButtonStyles = cva([
 }
 />
 
-## Example
+## Functionality
 
-Below is an example of how you might use the `Button` in a project.
-
-<CodeBlock
-  title="Example Code"
-  fit={true}
-  snippet={
-    `
-    // -- /pages/details.js
-
-    // utils
-    import Button from '@/components/ui/button'
-
-    const Page = () => {
-      return (
-        <div className='flex items-center justify-between w-full px-3 py-2'>
-          <p className='text-xl font-medium'>ProjectName</p>
-          <Button
-            onClick={()=> console.log('Click me')}
-            type='button'
-            size='sm'>Click Me</Button>
-        </div>
-      )
-    }
-
-    export default Page
-    `
-    }
-
-/>
+The button is built using **Class-Variance-Authority** and **TailwindCSS**. It is a simple UI component used to trigger events.
 
 ## Full Code
 
@@ -456,7 +427,7 @@ return (
     className
   )}
 >
-  {loading && <ImSpinner3 className="animate-spin inline-flex mr-2" />}
+  {loading && <ImSpinner3 className="mr-2 inline-flex animate-spin" />}
   <span>{children}</span>
 </button>
 ) }
@@ -485,6 +456,6 @@ Below is a table of props for use within the `Button` component.
 
 ## Demonstration
 
-Buttons come with three different styles: Default, Outline and Ghost. Below is a simple demonstration of how each button looks with the various props applied and a fixed `style` . Toggle between default, primary and secondary to see your color scheme reflected in the `button` component.
+Buttons come with three different styles: **Default**, **Outline** and **Ghost**. Below is a simple demonstration of how each button looks with the various props applied and a fixed `style` . Toggle between **Default**, **Primary** and **Secondary** to see your color scheme reflected in the `button` component.
 
 <ButtonDemonstration />
