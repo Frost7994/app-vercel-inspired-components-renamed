@@ -1,3 +1,6 @@
+// state
+import { forwardRef } from "react";
+
 // base
 import { BiCheck } from "react-icons/bi";
 
@@ -8,7 +11,7 @@ import * as CheckboxRoot from "@radix-ui/react-checkbox";
 import { cva } from "class-variance-authority";
 import mergeClasses from "@/utils/helpers/mergeClasses";
 
-const Checkbox = ({
+const Checkbox = forwardRef(({
   disabled,
   checked,
   setChecked,
@@ -16,7 +19,7 @@ const Checkbox = ({
   size,
   variant,
   className,
-}) => {
+}, ref) => {
   // styling
   let baseCheckboxStyles = cva(
     [
@@ -85,6 +88,7 @@ const Checkbox = ({
 
   return (
     <CheckboxRoot.Root
+      ref={ref}
       disabled={disabled}
       id="c1"
       defaultChecked={defaultChecked}
@@ -102,6 +106,9 @@ const Checkbox = ({
       </CheckboxRoot.Indicator>
     </CheckboxRoot.Root>
   );
-};
+});
 
 export default Checkbox;
+
+// display name
+Checkbox.displayName = "Checkbox";

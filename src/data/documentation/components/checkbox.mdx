@@ -58,19 +58,75 @@ To use the `Checkbox` component, simply import it from `@/components/ui/checkbox
     `}
 />
 
+## Edges
+
+Some components such as `Checkbox` are used mainly within other elements such as forms. That means we need access to them for focus or displaying errors. The `Checkbox` component is wrapped in a forwardRef so we can pass a ref to it, for example when using `Controller` from __React-Hook-Form__. An example is provided below: 
+
+<CodeBlock
+title='React-Hook-Form example'
+fit={true}
+snippet={`
+// components
+import Button from "@/components/ui/button"
+import Checkbox from "@/components/ui/checkbox"
+
+// utils
+import { useForm, Controller } from "react-hook-form"
+
+const Component = () => {
+  // form destructure
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      terms: false
+    }
+  })
+
+  // fn submit
+  const onSubmit = (data) => {
+    console.log(data)
+  }
+
+  return (
+    <div className="flex items-center justify-center h-full">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex items-center gap-2">
+        <Controller
+          control={control}
+          name='terms'
+          rules={{ required: true }}
+          render={({ field: { value, onChange, ref } }) =>
+            <Checkbox
+              ref={ref}
+              checked={value}
+              setChecked={onChange}
+            />
+          }
+        />
+        <p>Agree to terms and conditions.</p>
+        <Button size='sm' type='submit'>Submit</Button>
+      </form>
+    </div>
+  )
+}
+
+export default Component
+`}/>
+
 ## Props
 
 Below is a table of props for use within the `Button` component.
 
-| Prop                                                | Type                             | Default                          | Description                                                                                       |
-| --------------------------------------------------- | -------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------- |
-| <TableProp type='solid'>defaultChecked</TableProp>  | <TableProp>Bool</TableProp>      | <NoWrap>false</NoWrap>           | Default state for the checkbox component.                                                         |
-| <TableProp type='solid'>checked</TableProp>         | <TableProp>Bool</TableProp>      | <NoWrap>false</NoWrap>           | The base state for the checkbox component taht can be updated using `setChecked`                  |
-| <TableProp type='solid'>setChecked</TableProp>      | <TableProp>Function</TableProp>  | <NoWrap>{`( ) => { }`}</NoWrap>  | The click event handler function.                                                                 |
-| <TableProp type='solid'>size</TableProp>            | <TableProp>String</TableProp>    | <NoWrap>"default"</NoWrap>       | The size of the checkbox. Possible values are `sm` , `default` and `lg` .                         |
-| <TableProp type='solid'>variant</TableProp>         | <TableProp>String</TableProp>    | <NoWrap>"default"</NoWrap>       | The visual colors of the checkbox. Possible values are `default` , `primary` and `secondary` .    |
-| <TableProp type='solid'>disabled</TableProp>        | <TableProp>Bool</TableProp>      | <NoWrap>false</NoWrap>           | Disables the checkbox.                                                                            |
-| <TableProp type='solid'>className</TableProp>       | <TableProp>String</TableProp>    | <NoWrap>" "</NoWrap>             | CSS class name(s) to apply to the checkbox element.                                               |
+| Prop                                                | Type                              | Default                          | Description                                                                                       |
+| --------------------------------------------------- | --------------------------------  | -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| <TableProp type='solid'>ref</TableProp>             | <TableProp>React.ref</TableProp>  | <NoWrap>null</NoWrap>            | A ref is used to connect to the component, for example, in a form. Allows focus of input etc      |
+| <TableProp type='solid'>defaultChecked</TableProp>  | <TableProp>Bool</TableProp>       | <NoWrap>false</NoWrap>           | Default state for the checkbox component.                                                         |
+| <TableProp type='solid'>checked</TableProp>         | <TableProp>Bool</TableProp>       | <NoWrap>false</NoWrap>           | The base state for the checkbox component taht can be updated using `setChecked`                  |
+| <TableProp type='solid'>setChecked</TableProp>      | <TableProp>Function</TableProp>   | <NoWrap>{`( ) => { }`}</NoWrap>  | The click event handler function.                                                                 |
+| <TableProp type='solid'>size</TableProp>            | <TableProp>String</TableProp>     | <NoWrap>"default"</NoWrap>       | The size of the checkbox. Possible values are `sm` , `default` and `lg` .                         |
+| <TableProp type='solid'>variant</TableProp>         | <TableProp>String</TableProp>     | <NoWrap>"default"</NoWrap>       | The visual colors of the checkbox. Possible values are `default` , `primary` and `secondary` .    |
+| <TableProp type='solid'>disabled</TableProp>        | <TableProp>Bool</TableProp>       | <NoWrap>false</NoWrap>           | Disables the checkbox.                                                                            |
+| <TableProp type='solid'>className</TableProp>       | <TableProp>String</TableProp>     | <NoWrap>" "</NoWrap>             | CSS class name(s) to apply to the checkbox element.                                               |
 
 
 ## Full Code
