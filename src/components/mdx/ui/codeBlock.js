@@ -24,7 +24,10 @@ const CodeBlock = ({ title, snippet, fit }) => {
           }}
           onCopy={() => {
             console.log(snippet);
-            toast.success("Copied to clipboard");
+            toast("The code has been copied to clipboard.", {
+              type: 'success',
+              title: 'Success!'
+            });
           }}
         >
           <BsClipboard className="cursor-pointer text-tertiary-950 dark:text-tertiary-50" />
@@ -37,7 +40,8 @@ const CodeBlock = ({ title, snippet, fit }) => {
         )}
       >
         <SyntaxHighlighter
-          language="javascript"
+          // language="javascript"
+          language="jsx"
           style={docco}
           customStyle={{
             paddingLeft: "2rem",

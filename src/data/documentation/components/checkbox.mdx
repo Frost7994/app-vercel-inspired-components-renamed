@@ -9,15 +9,21 @@ tag: "Components"
 
 ## Introduction
 
-The `Checkbox` component is a controlled UI element used to toggle between two options, checked and unchecked. It can be styled to fit the design of your application, and supports various props to control its behavior and appearance.
+The `Checkbox` component is a user interface (UI) element that allows users to select one or more options from a list of choices. It consists of a small box that can be either checked or unchecked.
 
 ## Anatomy
 
 The `Checkbox` component consists of the following elements:
 
-- `Checkbox` root as a wrapper 
-- `Checkbox` indicator to provide visual feedback on its state  
-- A simple check icon
+- `Checkbox` HTML input element
+- __Indicator__ HTML element to visually display the state
+- __Check Icon__ as well to visualize the current state of the checkbox
+
+## Demonstration
+
+The base `Checkbox` component accepts multiple props for size, styling and active states. Below is a sandbox in which you can test out each of the available props that will affect the components appearance.
+
+<CheckboxDemonstration />
 
 ## Usage
 
@@ -29,115 +35,43 @@ To use the `Checkbox` component, simply import it from `@/components/ui/checkbox
   snippet={`
     // state
     import { useState } from 'react'
-
+    
     // components
     import Checkbox from '@/components/ui/checkbox'
 
     const Page = () => {
-        // state
-        let [checked, setChecked] = useState(false)
+      // state
+      let [checked, setChecked] = useState(false)
 
-        return (
-            <div className='flex items-center gap-2'>
-                <Checkbox
-                    checked={checked}
-                    setChecked={setChecked}
-                />
-                <p className='text-lg'>Agree to terms and services?</p>
-            </div>
-        )
+      return (
+        <div className='flex items-center gap-2'>
+            <Checkbox
+              checked={checked}
+              setChecked={setChecked}
+            />
+            <p>Agree to terms and conditions.</p>
+        </div>
+      )
     }
 
     export default Page
     `}
-
 />
 
-## Styling
+## Props
 
-The styling below is taken as an inspiration from the **Vercel** design principles. It allows for both light and dark mode and takes the following props:
+Below is a table of props for use within the `Button` component.
 
-- variant
-- size
-- disabled
+| Prop                                                | Type                             | Default                          | Description                                                                                       |
+| --------------------------------------------------- | -------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| <TableProp type='solid'>defaultChecked</TableProp>  | <TableProp>Bool</TableProp>      | <NoWrap>false</NoWrap>           | Default state for the checkbox component.                                                         |
+| <TableProp type='solid'>checked</TableProp>         | <TableProp>Bool</TableProp>      | <NoWrap>false</NoWrap>           | The base state for the checkbox component taht can be updated using `setChecked`                  |
+| <TableProp type='solid'>setChecked</TableProp>      | <TableProp>Function</TableProp>  | <NoWrap>{`( ) => { }`}</NoWrap>  | The click event handler function.                                                                 |
+| <TableProp type='solid'>size</TableProp>            | <TableProp>String</TableProp>    | <NoWrap>"default"</NoWrap>       | The size of the checkbox. Possible values are `sm` , `default` and `lg` .                         |
+| <TableProp type='solid'>variant</TableProp>         | <TableProp>String</TableProp>    | <NoWrap>"default"</NoWrap>       | The visual colors of the checkbox. Possible values are `default` , `primary` and `secondary` .    |
+| <TableProp type='solid'>disabled</TableProp>        | <TableProp>Bool</TableProp>      | <NoWrap>false</NoWrap>           | Disables the checkbox.                                                                            |
+| <TableProp type='solid'>className</TableProp>       | <TableProp>String</TableProp>    | <NoWrap>" "</NoWrap>             | CSS class name(s) to apply to the checkbox element.                                               |
 
-You can use these variants and styles directly, edit the styling or edit the variants as you see fit for your project.
-
-<CodeBlock
-  title='General styling'
-  snippet={`
-   // styling
-  let baseCheckboxStyles = cva(
-    [
-      "border",
-      "overflow-hidden",
-      "rounded-md",
-      "flex",
-      "items-center",
-      "justify-center",
-      "transition-all",
-    ],
-    {
-      variants: {
-        size: {
-          sm: ["h-4", "w-4"],
-          default: ["h-5", "w-5"],
-          lg: ["h-6", "w-6"],
-        },
-        variant: {
-          default: [
-            "border-tertiary-300",
-            "dark:border-tertiary-700",
-            "hover:border-tertiary-950",
-            "hover:dark:border-tertiary-50",
-          ],
-          primary: ["border-primary-500", "hover:border-primary-600"],
-          secondary: ["border-secondary-500", "hover:border-secondary-600"],
-        },
-        disabled: {
-          true: ["disabled:pointer-events-none", "disabled:opacity-40"],
-        },
-      },
-      defaultVariants: {
-        size: "default",
-        variant: "default",
-      },
-    }
-  );
-
-  let baseCheckboxIndicatorStyles = cva(
-    ["flex", "items-center", "justify-center", "h-full", "w-full"],
-    {
-      variants: {
-        size: {
-          sm: ["text-xs"],
-          default: ["text-base"],
-          lg: ["text-lg"],
-        },
-        variant: {
-          default: [
-            "bg-tertiary-950",
-            "dark:bg-tertiary-50",
-            "text-tertiary-50",
-            "dark:text-tertiary-950",
-          ],
-          primary: ["bg-primary-500", "text-primary-50"],
-          secondary: ["bg-secondary-500", "text-secondary-50"],
-        },
-      },
-      defaultVariants: {
-        variant: "default",
-        size: "default",
-      },
-    }
-  )
-`
-}
-/>
-
-## Functionality
-
-The `Checkbox` is built using **@RadixUI**, **Class-Variance-Authority** and **TailwindCSS**. It is a simple UI component used to trigger events.
 
 ## Full Code
 
@@ -253,27 +187,4 @@ const Checkbox = ({
 };
 
 export default Checkbox;
-
-
-`
-}/>
-
-## Props
-
-Below is a table of props for use within the `Checkbox` component.
-
-| Prop                                          | Type                            | Default                         | Description                                                                                                                                                                                            |
-| --------------------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <TableProp type='solid'>defaultChecked</TableProp>      | <TableProp>Bool</TableProp>   | <NoWrap>false</NoWrap>      | The default state of the checkbox. |
-| <TableProp type='solid'>checked</TableProp>      | <TableProp>Bool</TableProp>   | <NoWrap>false</NoWrap>      | The active state of the checkbox. |
-| <TableProp type='solid'>setChecked</TableProp>      | <TableProp>Function</TableProp>   | <NoWrap>{`( ) => { }`}</NoWrap>      | Function to change the active state of the checkbox. |
-| <TableProp type='solid'>size</TableProp>      | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The size of the button. Possible values are `sm` , `default` and `lg` .                                                                                                                                |
-| <TableProp type='solid'>variant</TableProp>   | <TableProp>String</TableProp>   | <NoWrap>"default"</NoWrap>      | The visual colors of the button. Possible values are `default` , `primary` and `secondary` .                                                                                                           |
-| <TableProp type='solid'>disabled</TableProp>  | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Disables the button.                                                                                                                                                                                   |
-| <TableProp type='solid'>className</TableProp> | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | CSS class name(s) to apply to the button element.                                                                                                                                                      |
-
-## Demonstration
-
-`Checkbox` has three variant options: __Default__, __Primary__ and __Secondary__. As well as that it can be checked, take a size prop and styling depending on it's disabled state.
-
-<CheckboxDemonstration />
+`}/>

@@ -17,7 +17,7 @@ const CheckboxDemonstration = () => {
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <div className="not-prose">
+    <div className="not-prose mb-12">
       <div className="rounded-md border border-tertiary-200 bg-tertiary-50 p-3 dark:border-tertiary-700 dark:bg-tertiary-950 sm:hidden">
         <p className="text-sm">
           View this page on a screen bigger than 640px to use the sandbox.
