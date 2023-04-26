@@ -11,6 +11,7 @@ const Error = ({
   title = "Error",
   message = "Something went wrong!",
   size = "default",
+  className
 }) => {
   // styling
   let baseErrorStyles = cva(["flex", "items-start", "gap-1", "text-red-500", "transition-all"], {
@@ -27,7 +28,7 @@ const Error = ({
   });
 
   return (
-    <div className={mergeClasses(baseErrorStyles({ size }))}>
+    <div className={mergeClasses(baseErrorStyles({ size }), className)}>
       {icon && (
         <AiOutlineExclamationCircle
           className={clsx("flex-shrink-0", size === "sm" ? "mt-1" : "mt-[5px]")}

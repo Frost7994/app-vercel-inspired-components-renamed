@@ -9,329 +9,181 @@ tag: "Components"
 
 ## Introduction
 
-The `Drawer` component is a container that slides in from the side of the screen, providing additional content or navigation options. This component is useful for mobile devices where space is limited and you want to provide a way to access additional functionality. It takes full advantage of portals to render its component.
+The `Drawer` component is a user interface (UI) element thats slides into view to show some wrapper content, usually a menu or navigation.
 
 ## Anatomy
 
 The `Drawer` component consists of the following elements:
 
-- `Drawer` HTML element
-- Inner text or child component
+- `Drawer` HTML wrapper element
+- The children wrapper by the drawer
 
-The anatomy has been purposely left very basic as the code for the component will be copied and pasted into your project and adjusted to your use case. The critical parts of this are the `Drawer` component itself, and key props such as **direction**, **isOpen** and **setIsOpen**.
+## Demonstration
+
+The base `Drawer` component accepts a single prop to determine the direction. It leverges the `Dialog` component to keep it minimal so styling and functionality can be done within the child.
+
+<DrawerDemonstration />
 
 ## Usage
 
-This is a simple example of the file `@/components/ui/drawer` which demonstates the drawer component in it's barest form.
-
-The drawer itself is built using `Dialog` from **HeadlessUI**. To keep it simple it uses only the outermost parts of the `Dialog` component but not the inner components such as **Title** or **Description**. You however can use these in the children you pass to it or not depending on your circumstances.
+To use the `Drawer` component, simply import it from `@/components/ui/drawer` and use it as follows:
 
 <CodeBlock
   title="Basic import"
   fit={true}
   snippet={`
-// components
-import { Dialog } from "@headlessui/react"
-
-// utils
-import { motion, AnimatePresence } from "framer-motion"
-import { cva } from "class-variance-authority"
-import mergeClasses from "@/utils/helpers/mergeClasses"
-
-const Drawer = ({ isOpen, setIsOpen, direction, children, className }) => {
-// variant for direction
-const directionVariant = {
-// variants
-}
-
-      let baseDrawerStyles = cva([
-         // default styling
-      ], {
-          variants: {
-              // dynamic styling for direction
-              direction: {
-                  left: [],
-                  right: [],
-                  top: [],
-                  bottom: [],
-              },
-          },
-          defaultVariants: {
-              direction: 'left',
-          },
-      })
-
-      return (
-          <AnimatePresence>
-              {isOpen && (
-                  <Dialog
-                      static
-                      open={isOpen}
-                      onClose={() => setIsOpen(false)}
-                      className="relative z-50">
-
-                      {/* The backdrop, rendered as a fixed sibling to the panel container */}
-                      <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.15, delay: 0.1 }}
-                          className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80" aria-hidden="true" />
-
-                      {/* Full-screen container to center the panel */}
-                      <div className="fixed inset-0">
-                          <Dialog.Panel
-                              variants={directionVariant}
-                              as={motion.div}
-                              custom={direction}
-                              initial="hidden"
-                              animate="visible"
-                              exit="hidden"
-                              transition={{ duration: 0.25, ease: 'easeInOut' }}
-                              className={mergeClasses(baseDrawerStyles({ direction }), className)}
-                          >
-                              {children}
-                          </Dialog.Panel>
-                      </div>
-                  </Dialog>
-              )}
-          </AnimatePresence>
-      )
-
-}
-
-export default Drawer
-`}
-
-/>
-
-## Styling
-
-The styling below is taken as an inspiration from the **Vercel** design principles. It allows for both light and dark mode and takes the following props:
-
-- direction
-- isOpen
-- setIsOpen
-
-<CodeBlock
-  title="General styling"
-  snippet={`
-  // styling
-let baseDrawerStyles = cva([
-        'absolute',
-        'p-8',
-        'bg-tertiary-50 dark:bg-tertiary-950',
-        'shadow-md'
-    ], {
-        variants: {
-            direction: {
-                left: [
-                    'h-full',
-                    'top-0',
-                    'left-0',
-                    'border-r',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-                right: [
-                    'h-full',
-                    'top-0',
-                    'right-0',
-                    'border-l',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-                top: [
-                    'w-full',
-                    'top-0',
-                    'inset-x-0',
-                    'border-b',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-                bottom: [
-                    'w-full',
-                    'bottom-0',
-                    'inset-x-0',
-                    'border-t',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-            },
-        },
-        defaultVariants: {
-            direction: 'left',
-        },
-    })
-`}
-/>
-
-## Example
-
-Below is an example of how you might use the `Drawer` in a project.
-
-<CodeBlock
-  title="Example Code"
-  fit={true}
-  snippet={
-    `
-    // -- /pages/details.js
-
     // state
-    import {useState} from 'react'
+    import { useState } from 'react'
 
     // components
     import Drawer from '@/components/ui/drawer'
     import Button from '@/components/ui/button'
 
     const Page = () => {
-      // state
-      let [isOpen, setIsOpen] = useState(false)
+    // state
+    let [isOpen, setIsOpen] = useState(false)
 
       return (
-        <div className='flex items-center justify-between w-full px-3 py-2'>
-          <Drawer>
-            <p>Hello from the drawer</p>
-          </Drawer>
-          <Button
-            onClick={()=> setIsOpen(true)}
-            type='button'
-            size='sm'>Open Drawer</Button>
+        <div className='flex justify-center items-center'>
+            <Drawer 
+              direction='left' 
+              isOpen={isOpen} 
+              setIsOpen={setIsOpen}>
+                <p>Hello from the drawer</p>
+            </Drawer>
+            <Button>
         </div>
       )
     }
 
     export default Page
-    `
-    }
-
+    `}
 />
+
+## Props
+
+Below is a table of props for use within the `Drawer` component.
+
+| Prop                                              | Type                                     | Default                             | Description                                                                                            |
+| ------------------------------------------------- | ---------------------------------------  | ----------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| <TableProp type='solid'>isOpen</TableProp>        | <TableProp>Bool</TableProp>              | <NoWrap>false</NoWrap>              | The base state for whether the drawer is open or closed                                                |
+| <TableProp type='solid'>setIsOpen</TableProp>     | <TableProp>Function</TableProp>          | <NoWrap>{`( ) => { }`}</NoWrap>     | The click event handler function.                                                                      |
+| <TableProp type='solid'>direction</TableProp>     | <TableProp>String</TableProp>            | <NoWrap>"left"</NoWrap>             | The direction in which the drawer slides in from, options being `left`, `right`, `top` and `bttom` .   |
+| <TableProp type='solid'>children</TableProp>      | <TableProp>React.ReactNode</TableProp>   | <NoWrap>{`{ }`}</NoWrap>            | The children wrapped by the Drawer component.                                                          |
+| <TableProp type='solid'>className</TableProp>     | <TableProp>String</TableProp>            | <NoWrap>" "</NoWrap>                | CSS class name(s) to apply to the Drawer element.                                                      |
+
 
 ## Full Code
 
-Below is the full code for `@/components/ui/button`.
+Below is the full code for `@/components/ui/drawer`.
 
 <CodeBlock 
 title='Completed component'
 snippet={`
 // components
-import { Dialog } from "@headlessui/react"
+import { Dialog } from "@headlessui/react";
 
 // utils
-import { motion, AnimatePresence } from "framer-motion"
-import { cva } from "class-variance-authority"
-import mergeClasses from "@/utils/helpers/mergeClasses"
+import { motion, AnimatePresence } from "framer-motion";
+import { cva } from "class-variance-authority";
+import mergeClasses from "@/utils/helpers/mergeClasses";
 
 const Drawer = ({ isOpen, setIsOpen, direction, children, className }) => {
-// variant for direction
-const directionVariant = {
-hidden: (direction) => ({
-x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : '0%',
-y: direction === 'top' ? '-100%' : direction === 'bottom' ? '100%' : '0%'
-}),
-visible: {
-x: 0,
-y: 0,
-},
-}
+  // variant for direction
+  const directionVariant = {
+    hidden: (direction) => ({
+      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : "0%",
+      y: direction === "top" ? "-100%" : direction === "bottom" ? "100%" : "0%",
+    }),
+    visible: {
+      x: 0,
+      y: 0,
+    },
+  };
 
-    let baseDrawerStyles = cva([
-        'absolute',
-        'p-8',
-        'bg-tertiary-50 dark:bg-tertiary-950',
-        'shadow-md'
-    ], {
-        variants: {
-            direction: {
-                left: [
-                    'h-full',
-                    'top-0',
-                    'left-0',
-                    'border-r',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-                right: [
-                    'h-full',
-                    'top-0',
-                    'right-0',
-                    'border-l',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-                top: [
-                    'w-full',
-                    'top-0',
-                    'inset-x-0',
-                    'border-b',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-                bottom: [
-                    'w-full',
-                    'bottom-0',
-                    'inset-x-0',
-                    'border-t',
-                    'border-tertiary-200 dark:border-tertiary-700',
-                ],
-            },
+  let baseDrawerStyles = cva(
+    ["absolute", "p-8", "bg-tertiary-50 dark:bg-tertiary-950", "shadow-md"],
+    {
+      variants: {
+        direction: {
+          left: [
+            "h-full",
+            "top-0",
+            "left-0",
+            "border-r",
+            "border-tertiary-200 dark:border-tertiary-700",
+          ],
+          right: [
+            "h-full",
+            "top-0",
+            "right-0",
+            "border-l",
+            "border-tertiary-200 dark:border-tertiary-700",
+          ],
+          top: [
+            "w-full",
+            "top-0",
+            "inset-x-0",
+            "border-b",
+            "border-tertiary-200 dark:border-tertiary-700",
+          ],
+          bottom: [
+            "w-full",
+            "bottom-0",
+            "inset-x-0",
+            "border-t",
+            "border-tertiary-200 dark:border-tertiary-700",
+          ],
         },
-        defaultVariants: {
-            direction: 'left',
-        },
-    })
+      },
+      defaultVariants: {
+        direction: "left",
+      },
+    }
+  );
 
-    return (
-        <AnimatePresence>
-            {isOpen && (
-                <Dialog
-                    static
-                    open={isOpen}
-                    onClose={() => setIsOpen(false)}
-                    className="relative z-50">
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <Dialog
+          static
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          className="relative z-50"
+        >
+          {/* The backdrop, rendered as a fixed sibling to the panel container */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
+            className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80"
+            aria-hidden="true"
+          />
 
-                    {/* The backdrop, rendered as a fixed sibling to the panel container */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.15, delay: 0.1 }}
-                        className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80" aria-hidden="true" />
-
-                    {/* Full-screen container to center the panel */}
-                    <div className="fixed inset-0">
-                        <Dialog.Panel
-                            variants={directionVariant}
-                            as={motion.div}
-                            custom={direction}
-                            initial="hidden"
-                            animate="visible"
-                            exit="hidden"
-                            transition={{ duration: 0.25, ease: 'easeInOut' }}
-                            className={mergeClasses(baseDrawerStyles({ direction }), className)}
-                        >
-                            {children}
-                        </Dialog.Panel>
-                    </div>
-                </Dialog>
-            )}
-        </AnimatePresence>
-    )
-
-}
+          {/* Full-screen container to center the panel */}
+          <div className="fixed inset-0">
+            <Dialog.Panel
+              variants={directionVariant}
+              as={motion.div}
+              custom={direction}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className={mergeClasses(
+                baseDrawerStyles({ direction }),
+                className
+              )}
+            >
+              {children}
+            </Dialog.Panel>
+          </div>
+        </Dialog>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export default Drawer;
-
-`
-}/>
-
-## Props
-
-Below is a table of props for use within the `Button` component.
-
-| Prop                                          | Type                            | Default                         | Description                                                     |
-| --------------------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------------------------------- |
-| <TableProp type='solid'>direction</TableProp> | <TableProp>String</TableProp>   | <NoWrap>"left"</NoWrap>         | The direction in which the drawer will be positioned.           |
-| <TableProp type='solid'>isOpen</TableProp>    | <TableProp>Bool</TableProp>     | <NoWrap>false</NoWrap>          | Whether or not the drawer is currently open.                    |
-| <TableProp type='solid'>setIsOpen</TableProp> | <TableProp>Function</TableProp> | <NoWrap>{`( ) => { }`}</NoWrap> | A fn to open and close the modal from clicking teh backdrop.    |
-| <TableProp type='solid'>children</TableProp>  | -                               | <NoWrap>null</NoWrap>           | Child elements that will be rendered inside the button element. |
-| <TableProp type='solid'>className</TableProp> | <TableProp>String</TableProp>   | <NoWrap>" "</NoWrap>            | CSS class name(s) to apply to the button element.               |
-
-## Demonstration
-
-Buttons come with three different styles: Default, Outline and Ghost. Below is a simple demonstration of how each button looks with the various props applied and a fixed `style` . Toggle between default, primary and secondary to see your color scheme reflected in the `button` component.
-
-<DrawerDemonstration />
+`}/>

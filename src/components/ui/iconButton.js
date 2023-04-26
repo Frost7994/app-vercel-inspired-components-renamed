@@ -152,7 +152,6 @@ const IconButton = ({
   variant,
   disabled,
   loading,
-  fullWidth,
   className,
 }) => {
   return (
@@ -166,7 +165,6 @@ const IconButton = ({
           style,
           disabled,
           loading,
-          fullWidth,
         }),
         className
       )}
