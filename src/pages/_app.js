@@ -14,7 +14,6 @@ import { useRouter } from 'next/router'
 
 // styling
 import '@/styles/globals.css'
-// import '@/styles/prism.css'
 
 export default function App({ Component, pageProps }) {
   // state

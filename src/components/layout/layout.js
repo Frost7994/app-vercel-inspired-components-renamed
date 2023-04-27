@@ -1,57 +1,16 @@
 // state
-import { useState, useRef } from "react";
-
-// data
-import { BREADCRUMBS } from "@/data";
-
-// base
-import { HiOutlineMenu } from "react-icons/hi";
-import { AiOutlineClose } from "react-icons/ai";
-import { BsChevronRight } from "react-icons/bs";
+import { useRef } from "react";
 
 // components
-import { Dialog } from "@headlessui/react";
 import Switch from "@/components/ui/switch";
 
 // utils
 import { useTheme } from "next-themes";
-import { motion, AnimatePresence } from "framer-motion";
-import Router, { useRouter } from "next/router";
-import clsx from "clsx";
-import Link from "next/link";
+import Router from "next/router";
 
 const Layout = ({ children }) => {
-  // state
-  let [isOpen, setIsOpen] = useState(false);
-
   // destructuring theme and setTheme from useTheme hook
   let { theme, setTheme } = useTheme();
-
-  // router destructure - use router to get the current path and all paths in the url
-  let {
-    push,
-    pathname,
-    query: { slug },
-  } = useRouter();
-
-  // get the current path and all paths in the url
-  let urlPaths = [];
-
-  if (slug) {
-    urlPaths = [`documentation`, ...slug];
-  } else {
-    urlPaths = pathname.split("/");
-  }
-
-  let path = urlPaths[urlPaths.length - 1];
-  let paths = urlPaths
-    .filter((path) => path !== "")
-    .map((p, i) => ({
-      // name: replace all '-' with ' '
-      name: p.replace(/-/g, " "),
-      // href: join all paths before and including the current path
-      href: `/${urlPaths.slice(1, i + 2).join("/")}`,
-    }));
 
   // ref for scroll to top
   let scrollRef = useRef();
@@ -66,88 +25,6 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      {/* mobile menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <Dialog
-            static
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            className="relative z-50"
-          >
-            {/* The backdrop, rendered as a fixed sibling to the panel container */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15, delay: 0.1 }}
-              className="fixed inset-0 bg-tertiary-50/80 dark:bg-tertiary-950/80"
-              aria-hidden="true"
-            />
-
-            {/* Full-screen container to center the panel */}
-            <div className="fixed inset-0">
-              <Dialog.Panel
-                as={motion.div}
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
-                className="h-full w-72 overflow-y-scroll border-r border-tertiary-200 bg-tertiary-50 pb-8 pl-4 pr-4 shadow-md scrollbar-hide dark:border-tertiary-700 dark:bg-tertiary-950 md:pl-8"
-              >
-                <div className="flex h-14 items-center justify-between border-b border-transparent">
-                  <Dialog.Title className="text-xl font-medium">
-                    Component<span className="text-primary-500">UI</span>
-                  </Dialog.Title>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-md border-2 border-tertiary-200 p-1 dark:border-tertiary-700"
-                  >
-                    <AiOutlineClose className="h-4 w-4 text-tertiary-400 dark:text-tertiary-700" />
-                  </button>
-                </div>
-                <Dialog.Description className="mb-4 text-tertiary-400 dark:text-tertiary-500">
-                  Navigate to a component or utility using this menu.
-                </Dialog.Description>
-
-                <ul className="flex flex-col gap-8">
-                  {BREADCRUMBS.map((breadcrumb) => (
-                    <li key={breadcrumb.name}>
-                      <p className="mb-2 text-lg font-medium capitalize">
-                        {breadcrumb.name}
-                      </p>
-                      <ul className="flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700">
-                        {breadcrumb.crumbs.map((crumb) => (
-                          <li
-                            key={crumb.name}
-                            className={clsx(
-                              "-ml-0.5 border-l-2 pl-3",
-                              path.replace(/-/g, "") ===
-                                crumb.name.replace(" ", "")
-                                ? "border-primary-500 text-primary-500"
-                                : "border-tertiary-200 text-tertiary-400 hover:border-tertiary-400 hover:text-tertiary-500 dark:border-tertiary-700 dark:text-tertiary-500 hover:dark:border-tertiary-500 hover:dark:text-tertiary-400"
-                            )}
-                          >
-                            <button
-                              onClick={() => {
-                                push(crumb.href);
-                                setIsOpen(false);
-                              }}
-                              className="capitalize"
-                            >
-                              {crumb.name}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              </Dialog.Panel>
-            </div>
-          </Dialog>
-        )}
-      </AnimatePresence>
       {/* nav */}
       <div className="flex h-14 w-full items-center justify-between border-b border-tertiary-200 px-4 dark:border-tertiary-700 md:px-8">
         <p className="text-xl font-medium">
@@ -163,65 +40,8 @@ const Layout = ({ children }) => {
           size="sm"
         />
       </div>
-      {/* subnav */}
-      <div className="flex h-14 w-full items-center gap-4 border-b border-tertiary-200 px-4 dark:border-tertiary-700 md:px-8">
-        {/* button for sidenav - visible at less than lg */}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="block rounded-md border-2 border-tertiary-200 p-1 dark:border-tertiary-700 lg:hidden"
-        >
-          <HiOutlineMenu className="h-5 w-5 text-tertiary-400 dark:text-tertiary-500" />
-        </button>
-        {/* breadcrumb */}
-        <ul className="flex min-w-0 text-sm md:text-base">
-          {paths.map((p, i) => (
-            <li key={i} className="flex items-center truncate">
-              <p
-                className={clsx(
-                  "truncate capitalize",
-                  i !== paths.length - 1
-                    ? "text-tertiary-400 dark:text-tertiary-500"
-                    : "font-medium text-primary-500"
-                )}
-              >
-                {p.name}
-              </p>
-              {i !== paths.length - 1 && (
-                <BsChevronRight className="mx-3 h-3 w-3 flex-shrink-0 text-tertiary-400 dark:text-tertiary-500" />
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
       {/* body */}
-      <div className="flex h-[calc(100%-112px)]">
-        {/* sidenav */}
-        <div className="hidden w-72 flex-shrink-0 flex-col overflow-y-scroll border-r border-tertiary-200 p-8 scrollbar-hide dark:border-tertiary-700 lg:flex">
-          <ul className="flex flex-col gap-8">
-            {BREADCRUMBS.map((breadcrumb) => (
-              <li key={breadcrumb.name}>
-                <p className="mb-2 text-lg font-medium capitalize">
-                  {breadcrumb.name}
-                </p>
-                <ul className="flex flex-col gap-1 border-l-2 border-tertiary-200 dark:border-tertiary-700">
-                  {breadcrumb.crumbs.map((crumb) => (
-                    <li
-                      key={crumb.name}
-                      className={clsx(
-                        "-ml-0.5 border-l-2 pl-3 capitalize",
-                        path.replace(/-/g, " ") === crumb.name
-                          ? "border-primary-500 text-primary-500"
-                          : "border-tertiary-200 text-tertiary-400 hover:border-tertiary-400 hover:text-tertiary-500 dark:border-tertiary-700 dark:text-tertiary-500 hover:dark:border-tertiary-500 hover:dark:text-tertiary-400"
-                      )}
-                    >
-                      <Link href={crumb.href}>{crumb.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="flex h-[calc(100%-56px)]">
         {/* main */}
         <div
           ref={scrollRef}
