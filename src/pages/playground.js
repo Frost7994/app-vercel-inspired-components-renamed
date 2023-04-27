@@ -33,7 +33,7 @@ const Playground = () => {
       </div>
       {/* toggles */}
       <div className="hidden sm:flex flex-col gap-4 p-4">
-        <p className="text-xl font-medium">Component Playground Renamed:</p>
+        <p className="text-xl font-medium">Component Playground:</p>
         <div className="flex md:flex-col flex-wrap gap-4">
           <div>
             <p>Styles:</p>
