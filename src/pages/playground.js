@@ -27,7 +27,8 @@ const Playground = () => {
         <div className="flex flex-col items-center  border border-tertiary-200 dark:border-tertiary-700 rounded-md p-4">
           <h2 className="font-bold text-3xl">Oops!</h2>
           <p className="text-center">
-            You need to be on a screen size of 640px or larger to see this page!
+            You need to be on the screen size of 640px or larger to see this
+            page!
           </p>
         </div>
       </div>
